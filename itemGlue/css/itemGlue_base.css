@@ -1,0 +1,8 @@
+.icon-itemGlue > *:first-child:before,
+.icon-addArticle > *:first-child:before,
+.icon-articlesArchives > *:first-child:before,
+.icon-updateArticleContent > *:first-child:before,
+.icon-updateArticle > *:first-child:before,
+.icon-allArticles > *:first-child:before {
+    content: '\f08d';
+}

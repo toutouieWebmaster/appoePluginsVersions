@@ -1,0 +1,7 @@
+.icon-interactiveMap > *:first-child:before,
+.icon-addInterMap > *:first-child:before,
+.icon-updateInterMapContent > *:first-child:before,
+.icon-updateInterMap > *:first-child:before,
+.icon-allInterMaps > *:first-child:before {
+    content: '\f5a0';
+}

@@ -1,0 +1,4 @@
+#instagramTimelineContainer img,
+#instagramTimelineContainer video {
+    max-width: 120px !important;
+}

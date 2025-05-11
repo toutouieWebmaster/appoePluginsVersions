@@ -1,0 +1,75 @@
+.icon-glueCard > *:first-child:before,
+.icon-updateCards > *:first-child:before {
+    content: '\f009';
+}
+
+#handlesContainer h4 {
+    text-transform: uppercase;
+    font-weight: lighter;
+    font-size:16px;
+}
+
+.handleCard {
+}
+
+.handleCard .card-header {
+
+}
+
+div.handleCard .card-header button {
+    text-decoration: none;
+    color: #FFF;
+}
+
+div.handleCard .card-header button:focus,
+div.handleCard .card-header button.focus {
+    outline: 0;
+    box-shadow: none;
+}
+div.cardsContainer .card .card-body{
+    /*background-image: url("/app/lib/template/images/pattern-so-white.png");
+    background-repeat: repeat;*/
+}
+input[name="handleNameInput"] {
+    background: transparent;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #FFF;
+    cursor: pointer;
+}
+
+input[name="planNameInput"] {
+    padding: 5px;
+    background: transparent;
+    /*border-bottom: 1px solid #FFF;*/
+    color: #000;
+}
+
+.increaseOrder, .lowerOrder {
+    cursor: pointer;
+}
+
+span.idHandle {
+    position: absolute;
+    left: -17px;
+    top: -12px;
+    font-size: 12px;
+}
+
+form.newPlanForm {
+    display: none;
+}
+
+div#newItemBtnSubmit {
+    border: 1px solid #ccc;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+div#newItemBtnSubmit:hover {
+    border: 1px solid #0A246A;
+    color: #0A246A;
+}

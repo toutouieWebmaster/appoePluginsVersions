@@ -1,0 +1,109 @@
+.icon-page > *:first-child:before,
+.icon-cms > *:first-child:before,
+.icon-addPage > *:first-child:before,
+.icon-updateMenu > *:first-child:before,
+.icon-cmsArchives > *:first-child:before,
+.icon-updatePageContent > *:first-child:before,
+.icon-updatePage > *:first-child:before,
+.icon-allPages > *:first-child:before {
+    content: '\f15c';
+}
+
+#menuAdminUpdate input[type=text] {
+    background: none;
+    border: 0;
+    width: 70%;
+}
+
+#menuAdminUpdate .inputInfo {
+    position: absolute;
+    bottom: 2px;
+    right: 10px;
+    color: #777;
+}
+
+#menuAdminUpdate .close {
+    position: absolute;
+    color: #000;
+    opacity: .5;
+    top: 2px;
+    right: 5px;
+    font-size: inherit;
+}
+
+.positionMenuSpan {
+    position: relative;
+    left: -16px;
+    background: #444;
+    color: #FFF;
+    padding: 11px 10px;
+    border-radius: 4px 0 0 0;
+    width: 45px;
+    border: 0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.idCmsMenuInput {
+    color: rgb(255, 255, 255);
+    background-color: rgb(68, 68, 68) !important;
+    font-weight: bold;
+    width: 100% !important;
+    padding: 2px 5px;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    border-radius: 0 0 4px 4px;
+    text-align: center;
+    z-index: 5;
+}
+
+#pageContentManageFormAccordion h2 button {
+    color: #FFF;
+    font-size: 1.2rem;
+    font-weight: 300;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+.templateZoneInput {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+
+}
+
+.templateZoneInput:hover,
+.templateZoneInput:focus,
+.templateZoneInput:active {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.templateZoneInput div.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#pageContentManageForm label {
+}
+
+#pageContentManageForm input,
+#pageContentManageForm select,
+#pageContentManageForm textarea,
+#pageContentManageForm div[id^="cke"] {
+    box-shadow: 3px 3px 10px 1px #dedede;
+}
+
+#pageContentManageForm input,
+#pageContentManageForm select,
+#pageContentManageForm textarea {
+}
+
+#headerLinks {
+    position: sticky;
+    top: 55px;
+    left: auto;
+    z-index: 9;
+}

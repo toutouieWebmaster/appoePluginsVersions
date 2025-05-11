@@ -1,0 +1,227 @@
+.icon-agendas > *:first-child:before,
+.icon-updateAgendaManager > *:first-child:before {
+    content: '\f073';
+}
+
+div#manageType {
+    box-shadow: 0 0 5px 1px #ccc;
+}
+
+div.btnGroupAgendaManager {
+    box-shadow: 0 0 5px 1px #ccc;
+    display: block;
+}
+
+.agendaTitle {
+    display: inline-block;
+    padding-bottom: 5px;
+    margin: 20px 0 10px;
+    border-bottom: 1px solid #333;
+}
+
+.agendaSubTitle {
+    display: inline-block;
+    font-weight: bold;
+}
+
+div.nameInputContainer input {
+    border: 0 none;
+    border-bottom: 1px solid #FFF;
+    background: transparent;
+    font-weight: bold;
+}
+
+div.nameInputContainer input:active,
+div.nameInputContainer input:focus,
+div.nameInputContainer input:hover {
+    box-shadow: none !important;
+    border-bottom: 1px solid #333;
+}
+
+div.informationTextareaContainer textarea {
+    border: 0 none;
+    resize: none;
+    background: transparent;
+    color: #888;
+    font-size: 14px;
+}
+
+div.informationTextareaContainer textarea::placeholder {
+    color: #aaa;
+    font-size: 14px;
+}
+
+div.informationTextareaContainer textarea:active,
+div.informationTextareaContainer textarea:focus,
+div.informationTextareaContainer textarea:hover {
+    box-shadow: none !important;
+}
+
+button.btnAgendaManager {
+    padding: 25px;
+    text-align: left;
+    background: transparent;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+button.btnAgendaManager:after {
+    content: '›';
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    font-size: 20px;
+    transform: translateY(-50%);
+}
+
+button.btnAgendaManager:focus,
+button.btnAgendaManager:hover {
+    background-color: #626877;
+    box-shadow: none;
+    color: #FFF;
+}
+
+button.btnAgendaManager.active {
+    background-color: #454F67;
+    box-shadow: none;
+    color: #FFF;
+}
+
+#rdvCalendar #calendar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+#rdvCalendar #calendar tr, #rdvCalendar #calendar tbody {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+}
+
+#rdvCalendar #calendar a {
+    color: #8e352e;
+    text-decoration: none;
+}
+
+#rdvCalendar #calendar td, #rdvCalendar #calendar th {
+    padding: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#rdvCalendar #calendar .weekdays {
+    background: transparent;
+}
+
+#rdvCalendar #calendar .weekdays th {
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 60px;
+    padding: 10px 0;
+    color: #000;
+    font-size: 13px;
+}
+
+#rdvCalendar #calendar td {
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+}
+
+#rdvCalendar #calendar td.other-month:hover {
+    cursor: not-allowed;
+}
+
+#rdvCalendar #calendar td.selectedDay,
+#rdvCalendar #calendar td.day:not(.other-month):focus,
+#rdvCalendar #calendar td.day:not(.other-month):hover {
+    background: #4559ff;
+    color: #FFF;
+    cursor: pointer;
+}
+
+#rdvCalendar #calendar td.selectedDay > .date,
+#rdvCalendar #calendar td.day:not(.other-month):focus > .date,
+#rdvCalendar #calendar td.day:not(.other-month):hover > .date {
+    color: #FFF;
+}
+
+#rdvCalendar #calendar td.selectedDay > .shapeRdv,
+#rdvCalendar #calendar td.day:not(.other-month):focus > .shapeRdv,
+#rdvCalendar #calendar td.day:not(.other-month):hover > .shapeRdv {
+    background: #fff;
+    border: 1px solid #fff;
+}
+
+#rdvCalendar #calendar .date {
+    text-align: center;
+    margin-bottom: 5px;
+    padding: 4px;
+    background: transparent;
+    color: #000;
+    width: 30px;
+    font-weight: bold;
+}
+
+#rdvCalendar #calendar .currentDay {
+    border: 3px solid #4559ff;
+}
+
+#rdvCalendar #calendar .currentDay .date {
+    color: #4559ff;
+}
+
+#rdvCalendar #calendar .other-month .date {
+    color: #999;
+}
+
+.shapeCurrentDay {
+    width: 20px;
+    height: 20px;
+    background: transparent;
+    border: 2px solid #4559ff;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.shapeSelectedDay {
+    width: 20px;
+    height: 20px;
+    background: #4559ff;
+    border: 1px solid #4559ff;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.shapeUnavailabaleDay {
+    width: 20px;
+    height: 20px;
+    background: #d4d4d4;
+    border: 1px solid #d4d4d4;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.shapeRdv {
+    width: 10px;
+    height: 10px;
+    background: #4559ff;
+    border: 1px solid #4559ff;
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 50%;
+}
+
+#rdvCalendar #calendar .disabledDay {
+    background: #d4d4d4;
+}
+
+div.dateTitleForm{
+    font-size: 20px;
+    font-weight: 300;
+}

@@ -1,0 +1,322 @@
+section.appointmentAppoe {
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 20px 10px;
+}
+
+section.appointmentAppoe .center {
+    text-align: center;
+}
+
+section.appointmentAppoe h2 {
+    margin-top: 8px;
+    font-size: 27px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+section.appointmentAppoe h2:before {
+    content: '';
+    display: inline-block;
+    background-color: #FF394F;
+    padding: 1px;
+    margin-right: 15px;
+    height: 25px;
+    border-radius: 2px !important;
+}
+
+section.appointmentAppoe .btn-round {
+    padding: 5px 15px;
+    border-radius: 12px !important;
+    border: none;
+    font-weight: 500;
+    background-color: #FFF;
+    cursor: pointer;
+}
+
+
+section.appointmentAppoe #appointmentPrevWeek,
+section.appointmentAppoe #appointmentCurrentWeek,
+section.appointmentAppoe #appointmentNextWeek {
+    border: 1px solid #ccc !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    line-height: 20px !important;
+    color: #000 !important;
+    width: 30px !important;
+    height: 25px !important;
+    text-align: center !important;
+    cursor: pointer;
+}
+
+section.appointmentAppoe #appointmentPrevWeek:hover,
+section.appointmentAppoe #appointmentCurrentWeek:hover,
+section.appointmentAppoe #appointmentNextWeek:hover {
+    background: #454f67 !important;
+    color: #FFF !important;
+    border: 1px solid #454f67 !important;
+}
+
+section.appointmentAppoe .border {
+    border: 1px solid #a8a8a8
+}
+
+section.appointmentAppoe .grey {
+    background-color: #F6F6F6 !important;
+    border: 1px solid #F6F6F6 !important
+}
+
+section.appointmentAppoe .btn-round:hover {
+    background-color: #626877 !important;
+    color: white;
+    border: 1px solid #626877 !important
+}
+
+section.appointmentAppoe .activeAgendaBtn {
+    background-color: #454F67 !important;
+    color: white;
+    border: 1px solid #454F67 !important
+}
+
+section.appointmentAppoe .inactive {
+    background-color: #CFCECD !important;
+    border: 1px solid #CFCECD !important
+}
+
+section.appointmentAppoe .inactive:hover {
+    background-color: #CFCECD !important;
+    border: 1px solid #CFCECD !important;
+    color: #000;
+}
+
+section.appointmentAppoe #appointmentSwipeCalendar {
+    margin: 20px 0 0 0;
+}
+
+section.appointmentAppoe .week {
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+section.appointmentAppoe .owl-carousel {
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
+}
+
+section.appointmentAppoe .dayBox {
+    background-color: #FFF;
+    border-radius: 30px;
+    width: 130px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    transition: margin 0.4s ease;
+    color: #434343;
+}
+
+section.appointmentAppoe .dayBox.disabledDay:hover,
+section.appointmentAppoe .dayBox.disabledDay.activeDate {
+    border: 1px solid #FF394F;
+    color: #FF394F;
+}
+section.appointmentAppoe .dayBox:hover,
+section.appointmentAppoe .dayBox.activeDate {
+    border: 1px solid #2A9B2C;
+    color: #2A9B2C;
+}
+
+section.appointmentAppoe .D-day {
+    position: relative;
+}
+
+section.appointmentAppoe .disabledDay {
+    background: repeating-linear-gradient(45deg, #eee, #eee 10px, #fff 10px, #fff 20px);
+}
+section.appointmentAppoe .dayBox.disabledDay  .month, section.appointmentAppoe .dayBox.disabledDay  .day, section.appointmentAppoe .dayBox.disabledDay  .date {
+    color: #000000;
+}
+
+section.appointmentAppoe .D-day::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 13px;
+    height: 13px;
+    background-color: #FF394F;
+    border-radius: 50%;
+    z-index: 1;
+
+}
+
+section.appointmentAppoe .dayBox .day, section.appointmentAppoe .dayBox .month {
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: bold;
+    padding: 0;
+    background: transparent;
+}
+
+section.appointmentAppoe .dayBox .date {
+    font-size: 40px;
+    line-height: 40px;
+    font-weight: 600;
+    margin: 5px 0;
+}
+section.appointmentAppoe .dayBox .day, section.appointmentAppoe .dayBox .month, section.appointmentAppoe .dayBox .date {
+    color: #2A9B2C;
+}
+
+section.appointmentAppoe .hourBox {
+    margin: 0;
+    border: 1px solid #2A9B2C;
+    border-radius: 12px !important;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+}
+
+section.appointmentAppoe .button {
+    margin: 5px;
+}
+
+.appointmentAppoeReminder.hoursRemind {
+    display: none;
+}
+
+.appointmentAppoeReminder {
+    margin-bottom: 50px;
+}
+
+.appointmentAppoeReminder {
+    font-size: 18px
+}
+
+.appointmentAppoeReminder strong {
+    color: #FF394F;
+    font-weight: 400;
+}
+
+.appointmentAppoeReminder img {
+    margin-right: 10px
+}
+
+section.appointmentAppoe .mb-20 {
+    margin-bottom: 20px
+}
+
+section.appointmentAppoe #appointmentFormulaire {
+    display: flex;
+    flex-direction: column;
+}
+
+section.appointmentAppoe #defaultFields {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+section.appointmentAppoe #defaultFields div.unkownClient {
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+    color: #FF394F;
+}
+
+section.appointmentAppoe #defaultFields label {
+    flex-basis: 49%;
+}
+
+section.appointmentAppoe label {
+    width: 100%;
+}
+
+section.appointmentAppoe input,
+section.appointmentAppoe textarea {
+    padding: 7px 17px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    resize: none;
+}
+
+section.appointmentAppoe input::placeholder,
+section.appointmentAppoe textarea::placeholder {
+    color: #888;
+    font-weight: 200;
+}
+
+section.appointmentAppoe #appointmentFormulaire button {
+    display: block;
+    margin: 0 auto 20px;
+    background-color: #454F67 !important;
+    color: white;
+    border: 1px solid #454F67 !important
+}
+
+section.appointmentAppoe #appointmentFormulaire button:hover {
+    background-color: #FFF !important;
+    color: black;
+    border: 1px solid #FF394F !important
+}
+
+.appointmentLoader {
+    display: block;
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999999;
+}
+
+.appointmentLoader div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    animation: appointmentLoader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    animation-delay: 0s;
+    border-color: #dedede transparent transparent transparent;
+    border-style: solid;
+    border-width: 8px;
+}
+
+.appointmentLoader div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.appointmentLoader div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.appointmentLoader div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes appointmentLoader {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 500px){
+    section.appointmentAppoe #defaultFields label {
+        flex-basis: 100%;
+    }
+}

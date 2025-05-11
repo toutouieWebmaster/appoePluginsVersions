@@ -1,0 +1,7 @@
+.icon-people > *:first-child:before,
+.icon-addPerson > *:first-child:before,
+.icon-archivePeople > *:first-child:before,
+.icon-updatePerson > *:first-child:before,
+.icon-allPeople > *:first-child:before {
+    content: '\f0c0';
+}

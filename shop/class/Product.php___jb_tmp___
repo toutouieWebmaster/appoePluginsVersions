@@ -1,0 +1,561 @@
+<?php
+
+namespace App\Plugin\Shop;
+class Product
+{
+    private $id;
+    private $sellerId;
+    private $type;
+    private $name;
+    private $slug;
+    private $resume = null;
+    private $description = null;
+    private $price;
+    private $poids = null;
+    private $dimension = null;
+    private $status = 1;
+
+    private $remainingQuantity = null;
+    private $orderedQuantity = null;
+    private $remainingDate = null;
+
+    private $dbh = null;
+
+    public function __construct($id_produit = null)
+    {
+        if (is_null($this->dbh)) {
+            $this->dbh = \App\DB::connect();
+        }
+
+        if (!is_null($id_produit)) {
+            $this->id = $id_produit;
+            $this->show();
+        }
+    }
+
+    /**
+     * @return null
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param null $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSellerId()
+    {
+        return $this->sellerId;
+    }
+
+    /**
+     * @param mixed $sellerId
+     */
+    public function setSellerId($sellerId)
+    {
+        $this->sellerId = $sellerId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResume()
+    {
+        return $this->resume;
+    }
+
+    /**
+     * @param mixed $resume
+     */
+    public function setResume($resume)
+    {
+        $this->resume = $resume;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPoids()
+    {
+        return $this->poids;
+    }
+
+    /**
+     * @param mixed $poids
+     */
+    public function setPoids($poids)
+    {
+        $this->poids = $poids;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDimension()
+    {
+        return $this->dimension;
+    }
+
+    /**
+     * @param mixed $dimension
+     */
+    public function setDimension($dimension)
+    {
+        $this->dimension = $dimension;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param bool $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRemainingQuantity()
+    {
+        return $this->remainingQuantity;
+    }
+
+    /**
+     * @param mixed $remainingQuantity
+     */
+    public function setRemainingQuantity($remainingQuantity)
+    {
+        $this->remainingQuantity = $remainingQuantity;
+    }
+
+    /**
+     * @return null
+     */
+    public function getOrderedQuantity()
+    {
+        return $this->orderedQuantity;
+    }
+
+    /**
+     * @param null $orderedQuantity
+     */
+    public function setOrderedQuantity($orderedQuantity)
+    {
+        $this->orderedQuantity = $orderedQuantity;
+    }
+
+    /**
+     * @return null
+     */
+    public function getRemainingDate()
+    {
+        return $this->remainingDate;
+    }
+
+    /**
+     * @param null $remainingDate
+     */
+    public function setRemainingDate($remainingDate)
+    {
+        $this->remainingDate = $remainingDate;
+    }
+
+
+    public function createTable()
+    {
+        $sql = 'CREATE TABLE IF NOT EXISTS `appoe_plugin_shop_products` (
+        `id` int(11) NOT NULL AUTO_INCREMENT,
+        PRIMARY KEY (`id`),
+        `sellerId` int(11) NOT NULL,
+        `type` varchar(150) NOT NULL,
+        `name` varchar(150) NOT NULL,
+        UNIQUE (`sellerId`, `type`, `name`),
+        `slug` VARCHAR(100) DEFAULT NULL,
+  		UNIQUE (`slug`),
+        `resume` varchar(201) DEFAULT NULL,
+        `description` text DEFAULT NULL,
+        `price` decimal(6,2) NOT NULL,
+        `poids` int(11) DEFAULT NULL,
+        `dimension` int(11) DEFAULT NULL,
+        `status` tinyint(1) NOT NULL DEFAULT 1,
+        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute();
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function show()
+    {
+
+        $sql = 'SELECT * FROM appoe_plugin_shop_products WHERE id = :id';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            if ($count == 1) {
+
+                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+                $this->feed($row);
+
+                $this->getDateLimit();
+                $this->getStockLimit();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * * @param bool $countProducts
+     * @return array|bool
+     */
+    public function showAll($countProducts = false)
+    {
+
+        $featured = $this->status == 1 ? ' status >= 1' : ' status = ' . $this->status . ' ';
+        $sql = 'SELECT * FROM appoe_plugin_shop_products WHERE ' . $featured . ' ORDER BY status DESC, created_at DESC';
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            $data = $stmt->fetchAll(\PDO::FETCH_OBJ);
+            return (!$countProducts) ? $data : $count;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function save()
+    {
+
+        $sql = 'INSERT INTO appoe_plugin_shop_products (sellerId, type, name, slug, resume, description, price, poids, dimension, created_at) 
+                VALUES (:sellerId, :type, :name, :slug, :resume, :description, :price, :poids, :dimension, CURDATE())';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':sellerId', $this->sellerId);
+        $stmt->bindParam(':type', $this->type);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':slug', $this->slug);
+        $stmt->bindParam(':resume', $this->resume);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':poids', $this->poids);
+        $stmt->bindParam(':dimension', $this->dimension);
+        $stmt->execute();
+
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            $this->setId($this->dbh->lastInsertId());
+            return true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function update()
+    {
+
+        $sql = 'UPDATE appoe_plugin_shop_products SET sellerId = :sellerId, type = :type, 
+        name = :name, slug = :slug, resume = :resume, description = :description, price = :price, poids = :poids, 
+        dimension = :dimension, status = :status WHERE id = :id';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->bindParam(':sellerId', $this->sellerId);
+        $stmt->bindParam(':type', $this->type);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':slug', $this->slug);
+        $stmt->bindParam(':resume', $this->resume);
+        $stmt->bindParam(':description', $this->description);
+        $stmt->bindParam(':price', $this->price);
+        $stmt->bindParam(':poids', $this->poids);
+        $stmt->bindParam(':dimension', $this->dimension);
+        $stmt->bindParam(':status', $this->status);
+        $stmt->execute();
+
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * @param bool $forUpdate
+     * @return bool
+     */
+    public function exist($forUpdate = false)
+    {
+
+        $sql = 'SELECT * FROM appoe_plugin_shop_products WHERE (type = :type AND name = :name AND sellerId = :sellerId) OR slug = :slug';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':type', $this->type);
+        $stmt->bindParam(':name', $this->name);
+        $stmt->bindParam(':slug', $this->slug);
+        $stmt->bindParam(':sellerId', $this->sellerId);
+        $stmt->execute();
+        $count = $stmt->rowCount();
+
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            if ($count == 1) {
+                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+
+                if ($forUpdate) {
+                    if ($this->id == $row->id) {
+                        return false;
+                    }
+                }
+                $this->feed($row);
+
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDateLimit()
+    {
+        $sql = 'SELECT date_limit FROM appoe_plugin_shop_stock WHERE product_id = :id AND date_limit IS NOT NULL';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        $error = $stmt->errorInfo();
+
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            if ($count == 1) {
+                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+
+                $date_limit = new \DateTime($row->date_limit);
+                $date_now = new \DateTime();
+                $interval = $date_now->diff($date_limit);
+
+                if ($interval->format('%R%a') >= 0) {
+                    $this->remainingDate = $interval->days + 1;
+                } else {
+                    $this->remainingDate = false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStockLimit()
+    {
+        $sql = 'SELECT s.limit_quantity, SUM(cd.quantity) AS orderedQuantity
+                FROM appoe_plugin_shop_stock AS s
+                LEFT JOIN appoe_plugin_shop_commandes_details AS cd
+                ON(s.product_id = cd.product_id)
+                WHERE s.product_id = :id';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        $error = $stmt->errorInfo();
+
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            if ($count > 0) {
+                $row = $stmt->fetch(\PDO::FETCH_OBJ);
+
+                if (!is_null($row->limit_quantity)) {
+
+                    if ($row->limit_quantity - $row->orderedQuantity >= 0) {
+
+                        //stock restant
+                        $this->remainingQuantity = $row->limit_quantity - $row->orderedQuantity;
+                        $this->orderedQuantity = $row->orderedQuantity;
+                    } else {
+
+                        //stock indisponible
+                        $this->remainingQuantity = false;
+                        $this->orderedQuantity = false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function delete()
+    {
+        $sql = 'DELETE FROM appoe_plugin_shop_products WHERE id = :id;';
+        $sql .= 'DELETE FROM appoe_plugin_shop_products_meta WHERE product_id = :id;';
+        $sql .= 'DELETE FROM appoe_plugin_shop_stock WHERE product_id = :id;';
+
+        $stmt = $this->dbh->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
+
+        $error = $stmt->errorInfo();
+        if ($error[0] != '00000') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Feed class attributs
+     * @param $data
+     */
+    public function feed($data)
+    {
+        foreach ($data as $attribut => $value) {
+            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));
+
+            if (is_callable(array($this, $method))) {
+                $this->$method($value);
+            }
+        }
+    }
+}

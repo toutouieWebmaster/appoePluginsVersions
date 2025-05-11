@@ -1,0 +1,12 @@
+.icon-addProduct > *:first-child:before,
+.icon-addStock > *:first-child:before,
+.icon-commandes > *:first-child:before,
+.icon-products > *:first-child:before,
+.icon-stock > *:first-child:before,
+.icon-shopArchives > *:first-child:before,
+.icon-updateProduct > *:first-child:before,
+.icon-updateProductData > *:first-child:before,
+.icon-updateStock > *:first-child:before,
+.icon-shop > *:first-child:before {
+    content: '\f07a';
+}

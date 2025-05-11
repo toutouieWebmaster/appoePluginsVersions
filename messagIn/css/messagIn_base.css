@@ -1,0 +1,4 @@
+.icon-addMessage > *:first-child:before,
+.icon-allMessages > *:first-child:before {
+    content: '\f0e0';
+}

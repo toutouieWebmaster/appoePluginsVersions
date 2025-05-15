@@ -382,9 +382,9 @@ class Tracker
      * Retourne le nb de pages consultées, le nb de visiteurs uniques, et le nb visiteurs uniques par 24h
      * @param string|null $dateStart
      * @param string|null $dateEnd
-     * @return object|bool
+     * @return object|array|bool
      */
-    public function showCountVisitorsBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    public function showCountVisitorsBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
     {
         $params = [];
 
@@ -408,9 +408,9 @@ class Tracker
      * Compte le nb de pages servies selon leur type (PAGE, ARTICLE, SHOP)
      * @param string|null $dateStart
      * @param string|null $dateEnd
-     * @return object|bool
+     * @return object|array|bool
      */
-    public function showCountPagesTypeBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    public function showCountPagesTypeBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
     {
         $params = [];
 
@@ -432,9 +432,9 @@ class Tracker
      * Compte le nb de pages servies selon leur nom et leur type (PAGE, ARTICLE, SHOP)
      * @param string|null $dateStart
      * @param string|null $dateEnd
-     * @return object|bool
+     * @return object|array|bool
      */
-    public function showCountPagesBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    public function showCountPagesBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = 'SELECT `pageType`, `pageName`, COUNT(`pageName`) AS count FROM ' . $this->tableName;
@@ -516,9 +516,9 @@ class Tracker
      *
      * @param string|null $dateStart
      * @param string|null $dateEnd
-     * @return object|bool
+     * @return object|array|bool
      */
-    public function showCountDevicesTypeForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    public function showCountDevicesTypeForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = 'SELECT COUNT(DISTINCT CASE WHEN `device` = "desktop" THEN `ip` END) AS ordinateur, COUNT(DISTINCT CASE WHEN `device` = "mobile" THEN `ip` END) AS mobile, COUNT(DISTINCT CASE WHEN `device` = "unknown" THEN `ip` END) AS autre FROM ' . $this->tableName;
@@ -540,9 +540,9 @@ class Tracker
      *
      * @param string|null $dateStart
      * @param string|null $dateEnd
-     * @return object|bool
+     * @return object|array|bool
      */
-    public function showCountDevicesForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    public function showCountDevicesForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = ' SELECT
@@ -569,9 +569,9 @@ class Tracker
      *
      * @param string|null $dateStart
      * @param string|null $dateEnd
-     * @return object|bool
+     * @return object|array|bool
      */
-    public function showCountRefererBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    public function showCountRefererBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = ' SELECT `referer`, COUNT(*) AS count FROM ' . $this->tableName;

@@ -226,7 +226,7 @@ function shop_getShoppingCard($saveCommande = false)
 
                         shop_clearCard(true);
                         $allDataProducts['commande'] = null;
-                        \App\Flash::setMsg('Votre commande à été annulé.');
+                        \App\Flash::setMsg('Votre commande a été annulée.');
                     }
                 }
             } else {

@@ -28,10 +28,10 @@ class Tracker
         if ($save) {
             $this->date = date('Y-m-d H:i:s');
             $this->ip = getIP();
-            $this->pageId = getPageId();
-            $this->pageType = getPageType();
-            $this->pageName = getPageName();
-            $this->pageSlug = getPageSlug();
+            $this->pageId = getPageParam('currentPageID');
+            $this->pageType = getPageParam('currentPageType');
+            $this->pageName = getPageParam('currentPageName');
+            $this->pageSlug = getPageParam('currentPageSlug');
 
             $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 

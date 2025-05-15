@@ -28,29 +28,49 @@ class Tracker
         if ($save) {
             $this->date = date('Y-m-d H:i:s');
             $this->ip = getIP();
-            $this->pageId = getPageParam('currentPageID');
-            $this->pageType = getPageParam('currentPageType');
-            $this->pageName = getPageParam('currentPageName');
-            $this->pageSlug = getPageParam('currentPageSlug');
+            $this->pageId = getPageId();
+            $this->pageType = getPageType();
+            $this->pageName = getPageName();
+            $this->pageSlug = getPageSlug();
 
-            $Browser = new Browser();
-            $result = $Browser->getAll($_SERVER['HTTP_USER_AGENT']);
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? null;
 
-            $this->referer = $_SERVER['HTTP_REFERER'] ?? null;
-            $this->device = $result['device_type'];
-            $this->browserName = $result['browser_name'];
-            $this->browserVersion = $result['browser_version'];
-            $this->osName = $result['os_name'];
-            $this->osVersion = $result['os_version'];
+            if ($userAgent) {
+                $Browser = new Browser();
+                $result = $Browser->getAll($_SERVER['HTTP_USER_AGENT']);
 
-            $this->save();
+                $this->referer = $_SERVER['HTTP_REFERER'] ?? null;
+                $this->device = $result['device_type'];
+                $this->browserName = $result['browser_name'];
+                $this->browserVersion = $result['browser_version'];
+                $this->osName = $result['os_name'];
+                $this->osVersion = $result['os_version'];
+
+                $this->save();
+            }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function save(): bool
+    {
+
+        $attributeToSave = array('date', 'ip', 'pageId', 'pageType', 'pageName', 'pageSlug', 'referer', 'device', 'browserName', 'browserVersion', 'osName', 'osVersion');
+        $params = array();
+        $sql = 'INSERT INTO ' . $this->tableName . ' (' . implode(', ', $attributeToSave) . ') 
+                VALUES (:' . implode(', :', $attributeToSave) . ')';
+        foreach ($attributeToSave as $value) {
+            $params[':' . $value] = $value ? $this->$value : null;
+        }
+        return DB::exec($sql, $params);
     }
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getId(): mixed
     {
         return $this->id;
     }
@@ -58,7 +78,7 @@ class Tracker
     /**
      * @param mixed $id
      */
-    public function setId($id)
+    public function setId(mixed $id): void
     {
         $this->id = $id;
     }
@@ -66,7 +86,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getDate()
+    public function getDate(): mixed
     {
         return $this->date;
     }
@@ -74,15 +94,15 @@ class Tracker
     /**
      * @param mixed $date
      */
-    public function setDate($date)
+    public function setDate(mixed $date): void
     {
         $this->date = $date;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getIp()
+    public function getIp(): bool
     {
         return $this->ip;
     }
@@ -90,7 +110,7 @@ class Tracker
     /**
      * @param mixed $ip
      */
-    public function setIp($ip)
+    public function setIp(mixed $ip): void
     {
         $this->ip = $ip;
     }
@@ -98,7 +118,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getPageId()
+    public function getPageId(): mixed
     {
         return $this->pageId;
     }
@@ -106,7 +126,7 @@ class Tracker
     /**
      * @param mixed $pageId
      */
-    public function setPageId($pageId)
+    public function setPageId(mixed $pageId): void
     {
         $this->pageId = $pageId;
     }
@@ -114,7 +134,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getPageType()
+    public function getPageType(): mixed
     {
         return $this->pageType;
     }
@@ -122,7 +142,7 @@ class Tracker
     /**
      * @param mixed $pageType
      */
-    public function setPageType($pageType)
+    public function setPageType(mixed $pageType): void
     {
         $this->pageType = $pageType;
     }
@@ -130,7 +150,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getPageName()
+    public function getPageName(): mixed
     {
         return $this->pageName;
     }
@@ -138,7 +158,7 @@ class Tracker
     /**
      * @param mixed $pageName
      */
-    public function setPageName($pageName)
+    public function setPageName(mixed $pageName): void
     {
         $this->pageName = $pageName;
     }
@@ -146,7 +166,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getPageSlug()
+    public function getPageSlug(): mixed
     {
         return $this->pageSlug;
     }
@@ -154,7 +174,7 @@ class Tracker
     /**
      * @param mixed $pageSlug
      */
-    public function setPageSlug($pageSlug)
+    public function setPageSlug(mixed $pageSlug): void
     {
         $this->pageSlug = $pageSlug;
     }
@@ -162,7 +182,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getReferer()
+    public function getReferer(): mixed
     {
         return $this->referer;
     }
@@ -170,7 +190,7 @@ class Tracker
     /**
      * @param mixed $referer
      */
-    public function setReferer($referer)
+    public function setReferer(mixed $referer): void
     {
         $this->referer = $referer;
     }
@@ -178,7 +198,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getDevice()
+    public function getDevice(): mixed
     {
         return $this->device;
     }
@@ -186,7 +206,7 @@ class Tracker
     /**
      * @param mixed $device
      */
-    public function setDevice($device)
+    public function setDevice(mixed $device): void
     {
         $this->device = $device;
     }
@@ -194,7 +214,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getBrowserName()
+    public function getBrowserName(): mixed
     {
         return $this->browserName;
     }
@@ -202,7 +222,7 @@ class Tracker
     /**
      * @param mixed $browserName
      */
-    public function setBrowserName($browserName)
+    public function setBrowserName(mixed $browserName): void
     {
         $this->browserName = $browserName;
     }
@@ -210,7 +230,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getBrowserVersion()
+    public function getBrowserVersion(): mixed
     {
         return $this->browserVersion;
     }
@@ -218,7 +238,7 @@ class Tracker
     /**
      * @param mixed $browserVersion
      */
-    public function setBrowserVersion($browserVersion)
+    public function setBrowserVersion(mixed $browserVersion): void
     {
         $this->browserVersion = $browserVersion;
     }
@@ -226,7 +246,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getOsName()
+    public function getOsName(): mixed
     {
         return $this->osName;
     }
@@ -234,7 +254,7 @@ class Tracker
     /**
      * @param mixed $osName
      */
-    public function setOsName($osName)
+    public function setOsName(mixed $osName): void
     {
         $this->osName = $osName;
     }
@@ -242,7 +262,7 @@ class Tracker
     /**
      * @return mixed
      */
-    public function getOsVersion()
+    public function getOsVersion(): mixed
     {
         return $this->osVersion;
     }
@@ -250,7 +270,7 @@ class Tracker
     /**
      * @param mixed $osVersion
      */
-    public function setOsVersion($osVersion)
+    public function setOsVersion(mixed $osVersion): void
     {
         $this->osVersion = $osVersion;
     }
@@ -258,7 +278,7 @@ class Tracker
     /**
      * @return bool
      */
-    public function createTable()
+    public function createTable(): bool
     {
         $sql = 'CREATE TABLE IF NOT EXISTS ' . $this->tableName . ' (
                 `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -277,31 +297,16 @@ class Tracker
                 `osVersion` VARCHAR(50) NULL DEFAULT NULL
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 				CREATE INDEX date ON ' . $this->tableName . ' (`date`);';
+
         return (bool)DB::exec($sql);
     }
 
     /**
-     * @return bool
-     */
-    public function save()
-    {
-
-        $attributeToSave = array('date', 'ip', 'pageId', 'pageType', 'pageName', 'pageSlug', 'referer', 'device', 'browserName', 'browserVersion', 'osName', 'osVersion');
-        $params = [];
-        $sql = 'INSERT INTO ' . $this->tableName . ' (' . implode(', ', $attributeToSave) . ') 
-                VALUES (:' . implode(', :', $attributeToSave) . ')';
-        foreach ($attributeToSave as $value) {
-            $params[':' . $value] = $value ? $this->$value : null;
-        }
-        return DB::exec($sql, $params);
-    }
-
-    /**
-     * @param bool|mixed $dateStart
-     * @param bool|mixed $dateEnd
+     * @param mixed|null $dateStart
+     * @param mixed|null $dateEnd
      * @return bool|mixed
      */
-    public function showBetweenDates($dateStart = null, $dateEnd = null)
+    public function showBetweenDates(mixed $dateStart = null, mixed $dateEnd = null): mixed
     {
         $params = [];
         $sql = 'SELECT date, ip, pageType, pageName FROM ' . $this->tableName;
@@ -323,120 +328,287 @@ class Tracker
         if ($return = DB::exec($sql, $params)) {
             return $return->fetchAll(PDO::FETCH_OBJ);
         }
+
         return false;
     }
 
     /**
-     * @param bool|mixed $dateStart
-     * @param bool|mixed $dateEnd
-     * @return bool|mixed
-     */
-    public function showCountVisitorsBetweenDates($dateStart = null, $dateEnd = null)
-    {
-        $params = [];
-        $sql = 'SELECT COUNT(`date`) AS consultedPages, COUNT(DISTINCT `ip`) AS ips FROM ' . $this->tableName;
-
-        $sql .= !is_null($dateStart) || !is_null($dateEnd) ? ' WHERE ' : '';
-
-        if (!is_null($dateStart)) {
-            $sql .= ' date >= :dateStart ';
-            $params[':dateStart'] = $dateStart;
-        }
-
-        $sql .= !is_null($dateStart) && !is_null($dateEnd) ? ' AND ' : '';
-
-        if (!is_null($dateEnd)) {
-            $sql .= ' date <= :dateEnd ';
-            $params[':dateEnd'] = $dateEnd;
-        }
-
-        if ($return = DB::exec($sql, $params)) {
-            return $return->fetch(PDO::FETCH_OBJ);
-        }
-        return false;
-    }
-
-    /**
-     * @param bool|mixed $dateStart
-     * @param bool|mixed $dateEnd
-     * @return bool|mixed
-     */
-    public function showCountPagesTypeBetweenDates($dateStart = null, $dateEnd = null)
-    {
-        $params = [];
-        $sql = 'SELECT COUNT( CASE WHEN `pageType` = "PAGE" THEN 1 END) AS PAGE, 
-        COUNT( CASE WHEN `pageType` = "ARTICLE" THEN 1 END) as ARTICLE, 
-        COUNT( CASE WHEN `pageType` = "SHOP" THEN 1 END) as SHOP FROM ' . $this->tableName;
-
-        $sql .= !is_null($dateStart) || !is_null($dateEnd) ? ' WHERE ' : '';
-
-        if (!is_null($dateStart)) {
-            $sql .= ' date >= :dateStart ';
-            $params[':dateStart'] = $dateStart;
-        }
-
-        $sql .= !is_null($dateStart) && !is_null($dateEnd) ? ' AND ' : '';
-
-        if (!is_null($dateEnd)) {
-            $sql .= ' date <= :dateEnd ';
-            $params[':dateEnd'] = $dateEnd;
-        }
-
-        if ($return = DB::exec($sql, $params)) {
-            return $return->fetch(PDO::FETCH_OBJ);
-        }
-        return false;
-    }
-
-    /**
-     * @param bool|mixed $dateStart
-     * @param bool|mixed $dateEnd
-     * @return bool|mixed
-     */
-    public function showCountPagesBetweenDates($dateStart = null, $dateEnd = null)
-    {
-        $params = [];
-        $sql = 'SELECT `pageType`, `pageName`, COUNT(`pageName`) AS count FROM ' . $this->tableName;
-
-        $sql .= !is_null($dateStart) || !is_null($dateEnd) ? ' WHERE ' : '';
-
-        if (!is_null($dateStart)) {
-            $sql .= ' date >= :dateStart ';
-            $params[':dateStart'] = $dateStart;
-        }
-
-        $sql .= !is_null($dateStart) && !is_null($dateEnd) ? ' AND ' : '';
-
-        if (!is_null($dateEnd)) {
-            $sql .= ' date <= :dateEnd ';
-            $params[':dateEnd'] = $dateEnd;
-        }
-
-        $sql .= ' GROUP BY `pageName`, `pageType` ';
-
-        if ($return = DB::exec($sql, $params)) {
-            return $return->fetchAll(PDO::FETCH_OBJ);
-        }
-        return false;
-    }
-
-    /**
-     * @param mixed $dateStart
-     * @param mixed $dateEnd
+     *
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
      * @return array
      */
-    public function getData($dateStart = null, $dateEnd = null)
+    public function getData(string $dateStart = null, string $dateEnd = null): array
     {
-
+        //collecte des données
         $data['visitors'] = $this->showCountVisitorsBetweenDates($dateStart, $dateEnd);
         $data['pagesType'] = $this->showCountPagesTypeBetweenDates($dateStart, $dateEnd);
         $data['pagesName'] = $this->showCountPagesBetweenDates($dateStart, $dateEnd);
 
-        if (is_array($data['pagesName'])) {
-            $data['pagesName'] = array_sort($data['pagesName'], 'count', SORT_DESC);
-            $data['pagesName'] = groupMultipleKeysObjectsArray($data['pagesName'], 'pageType');
+        $data['devicesType'] = $this->showCountDevicesTypeBetweenDates($dateStart, $dateEnd);
+        $data['devices'] = $this->showCountDevicesBetweenDates($dateStart, $dateEnd);
+
+        $data['devicesTypeForShop'] = $this->showCountDevicesTypeForShopBetweenDates($dateStart, $dateEnd);
+        $data['devicesForShop'] = $this->showCountDevicesForShopBetweenDates($dateStart, $dateEnd);
+
+        $data['referer'] = $this->showCountRefererBetweenDates($dateStart, $dateEnd);
+
+
+        //Formatage des données pour les tableaux d'objets :
+        //-1- trie les tableaux ($key) par ordre décroissant
+        //-2- regroupe les données dans un tableau si le type ($value) est précisé
+        $arraysToProcess = [
+            'pagesName' => 'pageType',
+            'devices' => 'device',
+            'devicesForShop' => 'device',
+            'referer' => null
+        ];
+        foreach ($arraysToProcess as $key => $value) {
+            if (isset($data[$key]) && is_array($data[$key])) {
+                // Trier les données par la clé 'count' en ordre décroissant
+                $data[$key] = array_sort($data[$key], 'count', SORT_DESC);
+
+                // Si un regroupement est défini, appliquer la fonction de regroupement
+                if ($value) {
+                    $data[$key] = groupMultipleKeysObjectsArray($data[$key], $value);
+                }
+            }
         }
 
         return $data;
     }
+
+    /**
+     * Retourne le nb de pages consultées, le nb de visiteurs uniques, et le nb visiteurs uniques par 24h
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
+     * @return object|bool
+     */
+    public function showCountVisitorsBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    {
+        $params = [];
+
+        $sql = 'SELECT 
+                COUNT(`date`) AS consultedPages, 
+                COUNT(DISTINCT `ip`) AS unique_ips, 
+                COUNT(DISTINCT `ip`, `date`) AS countByDay_ips 
+            FROM ' . $this->tableName;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetch(PDO::FETCH_OBJ) : false;
+    }
+
+
+    /**
+     * Compte le nb de pages servies selon leur type (PAGE, ARTICLE, SHOP)
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
+     * @return object|bool
+     */
+    public function showCountPagesTypeBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    {
+        $params = [];
+
+        $sql = 'SELECT COUNT( CASE WHEN `pageType` = "PAGE" THEN 1 END) AS PAGE, 
+        COUNT( CASE WHEN `pageType` = "ARTICLE" THEN 1 END) as ARTICLE, 
+        COUNT( CASE WHEN `pageType` = "SHOP" THEN 1 END) as SHOP FROM ' . $this->tableName;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetch(PDO::FETCH_OBJ) : false;
+    }
+
+
+    /**
+     * Compte le nb de pages servies selon leur nom et leur type (PAGE, ARTICLE, SHOP)
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
+     * @return object|bool
+     */
+    public function showCountPagesBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    {
+        $params = [];
+        $sql = 'SELECT `pageType`, `pageName`, COUNT(`pageName`) AS count FROM ' . $this->tableName;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+        $sql .= ' GROUP BY `pageName`, `pageType` ';
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetchAll(PDO::FETCH_OBJ) : false;
+    }
+
+    /*
+     * -------------------------------------------------
+     * ------------- Détail par navigateur -------------
+     * -------------------------------------------------
+     */
+
+    /**
+     * Retourne un objet contenant le nombre d’appareils différents par type d’appareil (Ordinateur, Mobile ou Autre)
+     *
+     * @param mixed|null $dateStart
+     * @param mixed|null $dateEnd
+     * @return bool|mixed
+     */
+    public function showCountDevicesTypeBetweenDates(mixed $dateStart = null, mixed $dateEnd = null): mixed
+    {
+        $params = [];
+
+        $sql = 'SELECT COUNT(DISTINCT CASE WHEN `device` = "desktop" THEN CONCAT(`ip`, `osName`, `browserName`) END) AS ordinateur,
+    COUNT(DISTINCT CASE WHEN `device` = "mobile" THEN CONCAT(`ip`, `osName`, `browserName`) END) AS mobile,
+    COUNT(DISTINCT CASE WHEN `device` = "unknown" THEN CONCAT(`ip`, `osName`, `browserName`) END) AS autre FROM' . $this->tableName;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetch(PDO::FETCH_OBJ) : false;
+    }
+
+    /**
+     * Retourne un tableau d’objets, chaque objet contenant le type d’appareil, son OS, le navigateur utilisé et son nombre d'occurrences
+     *
+     * @param mixed|null $dateStart
+     * @param mixed|null $dateEnd
+     * @return bool|mixed
+     */
+    public function showCountDevicesBetweenDates(mixed $dateStart = null, mixed $dateEnd = null): mixed
+    {
+        $params = [];
+        $sql = ' SELECT
+                    CASE WHEN `device` = "desktop" THEN "ordinateur" WHEN `device` = "unknown" THEN "autre" ELSE `device` END AS `device`,
+                    CASE WHEN `osName` = "unknown" THEN "système tiers" ELSE `osName` END AS `osName`,
+                    CASE WHEN `browserName` = "unknown" THEN "inconnu" ELSE `browserName` END AS `browserName`,
+                    COUNT(DISTINCT ip) AS count FROM ' . $this->tableName;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+        $sql .= ' GROUP BY `device`, `osName`, `browserName`';
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetchAll(PDO::FETCH_OBJ) : false;
+    }
+
+    /*
+     * -----------------------------------------------------
+     * ----------------- Détail par pageId -----------------
+     * -----------------------------------------------------
+     */
+
+    /**
+     * Retourne un objet contenant, pour un pageID spécifique, le nombre d’appareils différents par type d’appareil (ordinateur, mobile ou autre).
+     *
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
+     * @return object|bool
+     */
+    public function showCountDevicesTypeForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    {
+        $params = [];
+        $sql = 'SELECT COUNT(DISTINCT CASE WHEN `device` = "desktop" THEN `ip` END) AS ordinateur, COUNT(DISTINCT CASE WHEN `device` = "mobile" THEN `ip` END) AS mobile, COUNT(DISTINCT CASE WHEN `device` = "unknown" THEN `ip` END) AS autre FROM ' . $this->tableName;
+
+        $params[':pageId'] = 12;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+        $sql .= ' WHERE `pageId` = :pageId ';
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetch(PDO::FETCH_OBJ) : false;
+    }
+
+    /**
+     * Retourne un tableau d’objets, chaque objet contenant le type d’appareil, son OS, le navigateur utilisé et son nombre d'occurrences pour le pageID spécifié.
+     *
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
+     * @return object|bool
+     */
+    public function showCountDevicesForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    {
+        $params = [];
+        $sql = ' SELECT
+                    CASE WHEN `device` = "desktop" THEN "ordinateur" WHEN `device` = "unknown" THEN "autre" ELSE `device` END AS `device`,
+                    CASE WHEN `osName` = "unknown" THEN "système tiers" ELSE `osName` END AS `osName`,
+                    CASE WHEN `browserName` = "unknown" THEN "inconnu" ELSE `browserName` END AS `browserName`,
+                    COUNT(DISTINCT ip) AS count FROM ' . $this->tableName;
+
+        $params[':pageId'] = 12;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+        $sql .= ' WHERE `pageId` = :pageId ';
+        $sql .= ' GROUP BY `device`, `osName`, `browserName`';
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetchAll(PDO::FETCH_OBJ) : false;
+    }
+
+    /**
+     * Retourne les adresses Referer et leur décompte
+     *
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
+     * @return object|bool
+     */
+    public function showCountRefererBetweenDates(string $dateStart = null, string $dateEnd = null): object|bool
+    {
+        $params = [];
+        $sql = ' SELECT `referer`, COUNT(*) AS count FROM ' . $this->tableName;
+
+        // Extension de la requête avec les conditions
+        $sql .= $this->addConditions($params, $dateStart, $dateEnd);
+        $sql .= ' GROUP BY `referer`';
+
+        // Exécuter la requête directement et retourner le résultat
+        $result = DB::exec($sql, $params);
+
+        return $result ? $result->fetchAll(PDO::FETCH_OBJ) : false;
+    }
+
+    /**
+     * Retourne selon les valeurs $dateStart et $dateEnd une string qui compléte les requêtes sql, et modifie le tableau $params
+     * @param array &$params
+     * @param string|null $dateStart
+     * @param string|null $dateEnd
+     * @return string
+     */
+    private function addConditions(array &$params, ?string $dateStart, ?string $dateEnd): string
+    {
+        // Construction des conditions dynamiques
+        $conditions = [];
+
+        if ($dateStart !== null) {
+            $conditions[] = 'date >= :dateStart';
+            $params[':dateStart'] = $dateStart;
+        }
+
+        if ($dateEnd !== null) {
+            $conditions[] = 'date <= :dateEnd';
+            $params[':dateEnd'] = $dateEnd;
+        }
+
+        return !empty($conditions) ? ' WHERE ' . implode(' AND ', $conditions) : '';
+    }
 }
+

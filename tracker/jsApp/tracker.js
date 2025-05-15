@@ -18,11 +18,16 @@ jQuery(document).ready(function () {
 
     tracker_getVisites();
 
-    $(document).on('click', '#refreshTracker', function () {
+    $(document).on('click', '#refreshTracker, #refreshTrackerDate', function () {
         let $trackerData = $('#trackerData');
         let dateStart = $trackerData.find('input#dateStart').val();
         let dateEnd = $trackerData.find('input#dateEnd').val();
-        tracker_getVisites(dateStart, dateEnd);
+        if (dateStart > dateEnd) {
+            $('#errorMessageTracker').html('<i>Veuillez entrer une date de début antérieure à la date de fin</i>');
+        } else {
+            tracker_getVisites(dateStart, dateEnd);
+        }
+
     });
 
 });

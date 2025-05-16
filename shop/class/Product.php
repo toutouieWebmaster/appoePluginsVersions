@@ -357,7 +357,7 @@ class Product
             $categorySQL = ' AND (C.id = :idCategory OR C.parentId = :idCategory) ';
         }
 
-        $sql = 'SELECT DISTINCT PRO.*, C.id AS idCategory, C.name AS categoryName, PROCONTENT.resume, PROCONTENT.content
+        $sql = 'SELECT DISTINCT PRO.*, C.id AS idCategory, C.name AS categoryName, PROCONTENT.resume, PROCONTENT.content, PROCONTENT.updated_at
         FROM '.TABLEPREFIX.'appoe_categoryRelations AS CR 
         RIGHT JOIN '.TABLEPREFIX.'appoe_plugin_shop_products AS PRO 
         ON(CR.typeId = PRO.id) 
@@ -366,7 +366,7 @@ class Product
         INNER JOIN '.TABLEPREFIX.'appoe_plugin_shop_products_content AS PROCONTENT
         ON(PROCONTENT.product_id = PRO.id)
         WHERE CR.type = "SHOP" AND PRO.status > 0 AND C.status > 0 AND PROCONTENT.lang = :lang' . $categorySQL . '
-        GROUP BY PRO.id ORDER BY PRO.status DESC, PROCONTENT.updated_at DESC';
+        ORDER BY PRO.status DESC, PROCONTENT.updated_at DESC';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':idCategory', $idCategory);

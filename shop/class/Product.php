@@ -541,7 +541,8 @@ class Product
                 FROM '.TABLEPREFIX.'appoe_plugin_shop_stock AS s
                 LEFT JOIN '.TABLEPREFIX.'appoe_plugin_shop_commandes_details AS cd
                 ON(s.product_id = cd.product_id)
-                WHERE s.product_id = :id';
+                WHERE s.product_id = :id
+                GROUP BY s.limit_quantity';
 
         $stmt = $this->dbh->prepare($sql);
         $stmt->bindParam(':id', $this->id);

@@ -169,7 +169,7 @@ showPostResponse(); ?>
                                 <?= Form::text('Nom', 'name', 'text', !empty($_POST['name']) ? $_POST['name'] : '', true, 70, 'disabled'); ?>
                             </div>
                             <div class="col-12 my-2">
-                                <?= Form::text('Position / Ordre', 'position', 'tel', !empty($_POST['position']) ? $_POST['position'] : ''); ?>
+                                <?= Form::text('Position / Ordre', 'position', 'tel', !empty($_POST['position']) ? $_POST['position'] : '', true); ?>
                             </div>
                             <div class="col-12 my-2">
                                 <?= Form::select('Emplacement', 'location', CMS_LOCATIONS, !empty($_POST['location']) ? $_POST['location'] : '', true); ?>

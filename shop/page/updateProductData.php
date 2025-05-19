@@ -77,11 +77,11 @@ if (!empty($_GET['id'])):
                                 <?= getTokenField(); ?>
                                 <input type="hidden" name="productId" value="<?= $Product->getId(); ?>">
                                 <div class="col-12 mb-2">
-                                    <?= Form::text('Résumé', 'resume', 'text', html_entity_decode($ProductContent->getResume()), false, 255); ?>
+                                    <?= Form::text('Résumé', 'resume', 'text', html_entity_decode($ProductContent->getResume() ?? ""), false, 255); ?>
                                 </div>
                                 <div class="col-12">
                                         <textarea name="productContent" id="productContent"
-                                                  class="appoeditor"><?= html_entity_decode($ProductContent->getContent()); ?></textarea>
+                                                  class="appoeditor"><?= html_entity_decode($ProductContent->getContent() ?? ""); ?></textarea>
                                 </div>
                                 <div class="my-2"></div>
                                 <div class="col-12">

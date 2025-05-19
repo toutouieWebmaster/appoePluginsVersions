@@ -126,7 +126,7 @@ class Traduction
     public function trans($key)
     {
         $trad = $key;
-        $trans = minimalizeText(html_entity_decode(htmlspecialchars_decode($key, ENT_QUOTES), ENT_QUOTES));
+        $trans = minimalizeText(html_entity_decode(htmlspecialchars_decode($key ?? "", ENT_QUOTES), ENT_QUOTES));
 
         if (is_array($this->data)) {
 
@@ -147,7 +147,7 @@ class Traduction
     public function transToOrigin($key)
     {
         $trad = $key;
-        $trans = minimalizeText(html_entity_decode(htmlspecialchars_decode($key, ENT_QUOTES), ENT_QUOTES));
+        $trans = minimalizeText(html_entity_decode(htmlspecialchars_decode($key ?? "", ENT_QUOTES), ENT_QUOTES));
 
         if (is_array($this->data)) {
 

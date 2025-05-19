@@ -45,7 +45,7 @@ echo getTitle( getAppPageName(), getAppPageSlug() ); ?>
                                 <td><?= $person->email ?></td>
                                 <td><?= $person->zip ?></td>
                                 <td><?= $person->city ?></td>
-                                <td><?= getPaysName($person->country); ?></td>
+                                <td><?= $person->country ? getPaysName($person->country) : ''; ?></td>
                                 <td>
                                     <a href="<?= getPluginUrl('people/page/update/', $person->id) ?>"
                                        class="btn btn-sm" title="<?= trans('Modifier'); ?>">

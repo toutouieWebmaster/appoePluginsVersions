@@ -85,10 +85,10 @@
                             <?= App\Form::target('addDateEvent'); ?>
                             <?= getTokenField(); ?>
                             <div class="row">
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-lg-5">
                                     <?= App\Form::text('Date début - au format Mois/Jour/Année, par exemple 01/15/2024 pour le 15 Janvier 24', 'dateDebut', 'text', '', true, 10, '', '', 'datepicker'); ?>
                                 </div>
-                                <div class="col-12 col-lg-4">
+                                <div class="col-12 col-lg-3">
                                     <?= App\Form::selectTime('Heure début', 'heureDebut', true, 0, 24, 55, 5); ?>
                                 </div>
                                 <div class="col-12 col-lg-4">

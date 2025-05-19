@@ -17,7 +17,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             <th>Date</th>
                             <th>Produit</th>
                             <th>Quantité restante / disponible</th>
-                            <th>Date limité à</th>
+                            <th>Date limitée à</th>
                             <th></th>
                         </tr>
                         </thead>

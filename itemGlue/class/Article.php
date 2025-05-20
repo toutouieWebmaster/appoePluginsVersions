@@ -672,7 +672,7 @@ class Article
         if ($return) {
            $id = DB::lastInsertId();
             if ($id) {
-                $this->setId($this->id);
+                $this->setId($id);
                 appLog('Creating Article -> id: ' . $this->id);
                 return true;
             }

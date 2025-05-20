@@ -436,9 +436,21 @@ function shop_clearCard($clearCommand = false)
 /**
  * @return int
  */
-function shop_getCountShippingCard()
+function shop_getCountShippingCard(): int
 {
-    return !empty($_COOKIE['PRODUCT']) ? count($_COOKIE['PRODUCT']) : 0;
+    $total = 0;
+
+    if (!empty($_COOKIE['PRODUCT'])) {
+        foreach ($_COOKIE['PRODUCT'] as $cookieProduct) {
+            $productData = unserialize(base64_decode($cookieProduct));
+
+            if (!empty($productData['quantity'])) {
+                $total += (int)$productData['quantity'];
+            }
+        }
+    }
+
+    return $total;
 }
 
 /**

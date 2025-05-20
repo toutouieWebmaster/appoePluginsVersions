@@ -8,10 +8,10 @@ use PDO;
 class Article
 {
     private $id;
-    private string $name;
-    private mixed $description = null;
-    private string $slug;
-    private string $content;
+    private ?string $name;
+    private ?string $description = null;
+    private ?string $slug;
+    private ?string $content;
     private $statut = 1;
     private $userId;
     private $createdAt;
@@ -21,7 +21,7 @@ class Article
     private ?array $categoriesDetails = [];
     private ?array $categories = [];
 
-    private $lang;
+    private ?string $lang;
 
     public function __construct($idArticle = null, $lang = LANG)
     {
@@ -190,9 +190,9 @@ class Article
     }
 
     /**
-     * @param mixed $content
+     * @param ?string $content
      */
-    public function setContent($content)
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }
@@ -630,22 +630,54 @@ class Article
     {
         $featured = $this->statut == 1 ? ' ART.statut >= 1' : ' ART.statut = ' . $this->statut . ' ';
 
-        $sql = 'SELECT DISTINCT ART.id, 
-         (SELECT cc1.content FROM ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS cc1 WHERE cc1.type = "NAME" AND cc1.idArticle = ART.id AND cc1.lang = :lang) AS name,
-        (SELECT cc2.content FROM ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS cc2 WHERE cc2.type = "DESCRIPTION" AND cc2.idArticle = ART.id AND cc2.lang = :lang) AS description,
-        (SELECT cc3.content FROM ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS cc3 WHERE cc3.type = "SLUG" AND cc3.idArticle = ART.id AND cc3.lang = :lang) AS slug,
-        (SELECT cc4.content FROM ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS cc4 WHERE cc4.type = "BODY" AND cc4.idArticle = ART.id AND cc4.lang = :lang) AS content,
-         ART.userId, ART.created_at, ART.updated_at, ART.statut, 
-        GROUP_CONCAT(DISTINCT C.id SEPARATOR "||") AS categoryIds, GROUP_CONCAT(DISTINCT C.name SEPARATOR "||") AS categoryNames
-        FROM ' . TABLEPREFIX . 'appoe_categoryRelations AS CR 
-        RIGHT JOIN ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles AS ART 
-        ON(CR.typeId = ART.id) 
-        INNER JOIN ' . TABLEPREFIX . 'appoe_categories AS C
-        ON(C.id = CR.categoryId)
-        INNER JOIN ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS AC
-        ON(AC.idArticle = ART.id)
-        WHERE ' . $featured . ' AND CR.type = "ITEMGLUE" AND C.status > 0 AND (name LIKE :search OR content LIKE :search) 
-        AND AC.lang = :lang GROUP BY ART.id ORDER BY ART.statut DESC, ART.created_at DESC ';
+        $sql = 'SELECT 
+    ART.id,
+    ART.userId,
+    ART.created_at,
+    ART.updated_at,
+    ART.statut,
+    
+    nameContent.content AS name,
+    descriptionContent.content AS description,
+    slugContent.content AS slug,
+    bodyContent.content AS content,
+
+    GROUP_CONCAT(DISTINCT C.id SEPARATOR "||") AS categoryIds,
+    GROUP_CONCAT(DISTINCT C.name SEPARATOR "||") AS categoryNames
+
+FROM ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles AS ART
+
+-- Jointures pour récupérer les contenus multilingues
+LEFT JOIN ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS nameContent 
+    ON nameContent.idArticle = ART.id AND nameContent.type = "NAME" AND nameContent.lang = :lang
+LEFT JOIN ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS descriptionContent 
+    ON descriptionContent.idArticle = ART.id AND descriptionContent.type = "DESCRIPTION" AND descriptionContent.lang = :lang
+LEFT JOIN ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS slugContent 
+    ON slugContent.idArticle = ART.id AND slugContent.type = "SLUG" AND slugContent.lang = :lang
+LEFT JOIN ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content AS bodyContent 
+    ON bodyContent.idArticle = ART.id AND bodyContent.type = "BODY" AND bodyContent.lang = :lang
+
+-- Jointures pour les catégories
+LEFT JOIN ' . TABLEPREFIX . 'appoe_categoryRelations AS CR 
+    ON CR.typeId = ART.id AND CR.type = "ITEMGLUE"
+LEFT JOIN ' . TABLEPREFIX . 'appoe_categories AS C 
+    ON C.id = CR.categoryId AND C.status > 0
+
+WHERE ' . $featured . '
+AND ART.id IN (
+    SELECT idArticle FROM ' . TABLEPREFIX . 'appoe_plugin_itemGlue_articles_content 
+    WHERE lang = :lang AND (
+        (type = "NAME" AND content LIKE :search) OR 
+        (type = "BODY" AND content LIKE :search)
+    )
+)
+
+GROUP BY ART.id, ART.userId, ART.created_at, ART.updated_at, ART.statut,
+         nameContent.content, descriptionContent.content, slugContent.content, bodyContent.content
+
+ORDER BY ART.statut DESC, ART.created_at DESC
+';
+
 
         $params = array(':search' => '%' . $searching . '%', ':lang' => $lang);
 

@@ -9,11 +9,14 @@
  */
 function interMap_writeMapFile($data, $title)
 {
-    $json_file = fopen(WEB_PLUGIN_PATH . 'interactiveMap/' . slugify($title) . '.json', 'w');
-    fwrite($json_file, $data);
-    fclose($json_file);
+    if ($data) {
+        $json_file = fopen(WEB_PLUGIN_PATH . 'interactiveMap/' . slugify($title) . '.json', 'w');
+        fwrite($json_file, $data);
+        fclose($json_file);
 
-    return true;
+        return true;
+    }
+    return false;
 }
 
 /**

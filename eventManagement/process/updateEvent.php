@@ -26,7 +26,7 @@ if (checkPostAndTokenRequest()) {
 
             //Delete post data
             unset($_POST);
-            setPostResponse('L\'évènement a été miseà jour', 'success');
+            setPostResponse('L\'évènement a été mis à jour', 'success');
 
         } else {
             setPostResponse('Un problème est survenu lors de la mise à jour de l\'évènement');

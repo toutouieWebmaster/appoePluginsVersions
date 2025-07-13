@@ -30,9 +30,9 @@
  * @link https://github.com/foroco/php-browser-detection
  */
 
-namespace foroco;
+namespace App\Plugin\Tracker;
 
-class BrowserDetection
+class Browser
 {
     public $useragent;
     private $get_mode;

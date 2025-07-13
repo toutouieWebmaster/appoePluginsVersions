@@ -4,6 +4,7 @@ namespace App\Plugin\Tracker;
 
 use App\DB;
 use PDO;
+use App\Plugin\Tracker\Browser;
 
 class Tracker
 {
@@ -52,9 +53,9 @@ class Tracker
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function save(): bool
+    public function save(): mixed
     {
 
         $attributeToSave = array('date', 'ip', 'pageId', 'pageType', 'pageName', 'pageSlug', 'referer', 'device', 'browserName', 'browserVersion', 'osName', 'osVersion');

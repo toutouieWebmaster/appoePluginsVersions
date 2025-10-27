@@ -34,7 +34,7 @@ function getCardsByHandle($idHandle, array $options = [])
 
     if ($items = $Item->showByHandle()) {
 
-        foreach ($items as $c => $item) {
+        foreach ($items as $item) {
 
             if (!$options['archives'] && $item->status == 0) {
                 continue;

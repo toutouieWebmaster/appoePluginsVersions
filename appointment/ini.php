@@ -1,7 +1,7 @@
 <?php
 const APPOINTMENT_PATH = WEB_PLUGIN_PATH . 'appointment/';
 const APPOINTMENT_URL = WEB_PLUGIN_URL . 'appointment/';
-const PLUGIN_APPOINTMENT_TABLES = array(
+const PLUGIN_TABLES = array(
     TABLEPREFIX . 'appoe_plugin_appointment_agendas',
     TABLEPREFIX . 'appoe_plugin_appointment_agendasmetas',
     TABLEPREFIX . 'appoe_plugin_appointment_availabilities',

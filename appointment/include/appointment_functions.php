@@ -38,7 +38,7 @@ Hook::add_action('cron', 'appointment_cron');
 /**
  * @return string|null
  */
-function urlAppointment()
+function urlAppointment(): string|null
 {
 
     if ($filename = getOption('APPOINTMENT', 'agendaFilename')) {
@@ -51,7 +51,7 @@ function urlAppointment()
 
 /********************************** BACK **************************************/
 
-function appointment_dashboard()
+function appointment_dashboard(): void
 {
     $Agenda = new Agenda();
     if ($agendas = $Agenda->showAll()):
@@ -144,7 +144,7 @@ function appointment_dashboard()
     endif;
 }
 
-function appointment_agenda_admin_getAll()
+function appointment_agenda_admin_getAll(): string
 {
     $html = '';
     $Agenda = new Agenda();
@@ -179,7 +179,7 @@ function appointment_agenda_admin_getAll()
 /**
  * @return string
  */
-function appointment_agendas_settings_admin_getAll()
+function appointment_agendas_settings_admin_getAll(): string
 {
     $files = getFilesFromDir(WEB_PUBLIC_PATH . 'html/', ['onlyFiles' => true, 'onlyExtension' => 'php', 'noExtensionDisplaying' => true]);
     $agendaTitle = getOption('APPOINTMENT', 'agendaTitle');
@@ -216,7 +216,7 @@ function appointment_agendas_settings_admin_getAll()
  * @param $idAgenda
  * @return string
  */
-function appointment_informations_admin_getAll($idAgenda)
+function appointment_informations_admin_getAll($idAgenda): string
 {
     $html = '';
     $Agenda = new Agenda();
@@ -280,7 +280,7 @@ function appointment_informations_admin_getAll($idAgenda)
  * @param $idAgenda
  * @return string
  */
-function appointment_availabilities_admin_getAll($idAgenda)
+function appointment_availabilities_admin_getAll($idAgenda): string
 {
     $html = '';
     $Agenda = new Agenda();
@@ -354,7 +354,7 @@ function appointment_availabilities_admin_getAll($idAgenda)
  * @param $idAgenda
  * @return string
  */
-function appointment_typeRdv_admin_getAll($idAgenda)
+function appointment_typeRdv_admin_getAll($idAgenda): string
 {
     $html = '';
     $Agenda = new Agenda();
@@ -451,7 +451,7 @@ function appointment_typeRdv_admin_getAll($idAgenda)
  * @param $idAgenda
  * @return string
  */
-function appointment_rdv_admin_getRdvTypes($idAgenda)
+function appointment_rdv_admin_getRdvTypes($idAgenda): string
 {
     $html = '';
     $Agenda = new Agenda();
@@ -467,7 +467,7 @@ function appointment_rdv_admin_getRdvTypes($idAgenda)
 
             $rdvTypes = extractFromObjToSimpleArr($rdvTypes, 'id', 'name');
             $currentYear = date('Y');
-            $years = [$currentYear - 1, $currentYear, $currentYear + 1];
+            $years = [(int) $currentYear - 1, $currentYear, (int) $currentYear + 1];
 
             $html .= '<div class="row" id="getRdvGrid">';
             $html .= '<div class="col-12 col-md-6">' . Form::select('Types de rendez-vous', 'rdvTypes', $rdvTypes) . '</div>';
@@ -485,9 +485,11 @@ function appointment_rdv_admin_getRdvTypes($idAgenda)
  * @param $year
  * @param $month
  * @return string
- * @throws Exception
+ * @throws DateMalformedStringException
+ * @throws DateMalformedIntervalStringException
+ * @throws DateInvalidOperationException
  */
-function appointment_rdv_admin_getGrid($idRdvType, $year, $month)
+function appointment_rdv_admin_getGrid($idRdvType, $year, $month): string
 {
     $html = '';
     $RdvType = new RdvType();
@@ -569,9 +571,10 @@ function appointment_rdv_admin_getGrid($idRdvType, $year, $month)
  * @param $idRdvType
  * @param $date
  * @return string
- * @throws Exception
+ * @throws DateMalformedStringException
+ * @throws \Random\RandomException
  */
-function appointment_rdv_admin_getAvailabilities($idRdvType, $date)
+function appointment_rdv_admin_getAvailabilities($idRdvType, $date): string
 {
     $html = '';
     $RdvType = new RdvType();
@@ -717,7 +720,7 @@ function appointment_rdv_admin_getAvailabilities($idRdvType, $date)
  * @param $idClient
  * @return array
  */
-function appointment_getFormClientById($idClient)
+function appointment_getFormClientById($idClient): array
 {
     $clientData = [];
 
@@ -743,7 +746,7 @@ function appointment_getFormClientById($idClient)
  * @param $idRdvType
  * @return string
  */
-function appointment_rdvTypeForm_admin_getAll($idAgenda, $idRdvType)
+function appointment_rdvTypeForm_admin_getAll($idAgenda, $idRdvType): string
 {
     $html = '';
     $Agenda = new Agenda();
@@ -785,7 +788,7 @@ function appointment_rdvTypeForm_admin_getAll($idAgenda, $idRdvType)
  * @param $agendaName
  * @return bool
  */
-function appointment_addAgenda($agendaName)
+function appointment_addAgenda($agendaName): bool
 {
     $Agenda = new Agenda();
     $Agenda->setName($agendaName);
@@ -800,7 +803,7 @@ function appointment_addAgenda($agendaName)
  * @param $end
  * @return bool|string
  */
-function appointment_addAvailability($idAgenda, $day, $start, $end)
+function appointment_addAvailability($idAgenda, $day, $start, $end): bool|string
 {
     $Availability = new Availabilities();
     $Availability->setIdAgenda($idAgenda);
@@ -826,7 +829,7 @@ function appointment_addAvailability($idAgenda, $day, $start, $end)
  * @param $position
  * @return bool
  */
-function appointment_addAgendaMeta($idAgenda, $key, $val, $position)
+function appointment_addAgendaMeta($idAgenda, $key, $val, $position): bool
 {
     $AgendaMeta = new AgendaMeta();
     $AgendaMeta->setIdAgenda($idAgenda);
@@ -843,7 +846,7 @@ function appointment_addAgendaMeta($idAgenda, $key, $val, $position)
  * @param string $information
  * @return bool
  */
-function appointment_addRdvType($idAgenda, $name, $duration, $information = '')
+function appointment_addRdvType($idAgenda, $name, $duration, string $information = ''): bool
 {
     $RdvType = new RdvType();
     $RdvType->setIdAgenda($idAgenda);
@@ -864,7 +867,7 @@ function appointment_addRdvType($idAgenda, $name, $duration, $information = '')
  * @param $position
  * @return bool
  */
-function appointment_addRdvTypeForm($idAgenda, $idRdvType, $name, $slug, $type, $placeholder, $required, $position)
+function appointment_addRdvTypeForm($idAgenda, $idRdvType, $name, $slug, $type, $placeholder, $required, $position): bool
 {
     $RdvTypeForm = new RdvTypeForm();
     $RdvTypeForm->setIdRdvType($idRdvType);
@@ -888,7 +891,7 @@ function appointment_addRdvTypeForm($idAgenda, $idRdvType, $name, $slug, $type, 
  * @param $position
  * @return bool
  */
-function appointment_updateRdvTypeForm($idRdvTypeForm, $name, $slug, $type, $placeholder, $required, $position)
+function appointment_updateRdvTypeForm($idRdvTypeForm, $name, $slug, $type, $placeholder, $required, $position): bool
 {
     $RdvTypeForm = new RdvTypeForm();
     $RdvTypeForm->setId($idRdvTypeForm);
@@ -906,7 +909,7 @@ function appointment_updateRdvTypeForm($idRdvTypeForm, $name, $slug, $type, $pla
  * @param $agendaName
  * @return bool
  */
-function appointment_changeAgendaName($idAgenda, $agendaName)
+function appointment_changeAgendaName($idAgenda, $agendaName): bool
 {
     $Agenda = new Agenda();
     $Agenda->setId($idAgenda);
@@ -921,7 +924,7 @@ function appointment_changeAgendaName($idAgenda, $agendaName)
  * @param $idAgenda
  * @return bool
  */
-function appointment_changeAgendaStatus($idAgenda)
+function appointment_changeAgendaStatus($idAgenda): bool
 {
     $Agenda = new Agenda();
     $Agenda->setId($idAgenda);
@@ -937,7 +940,7 @@ function appointment_changeAgendaStatus($idAgenda)
  * @param $idAgenda
  * @return bool
  */
-function appointment_preferenceHolidayWorking($idAgenda)
+function appointment_preferenceHolidayWorking($idAgenda): bool
 {
     $Option = new Option();
     $Option->setType('APPOINTMENT');
@@ -957,7 +960,7 @@ function appointment_preferenceHolidayWorking($idAgenda)
  * @param $rdvTypeName
  * @return bool
  */
-function appointment_changeRdvTypeName($idRdvType, $rdvTypeName)
+function appointment_changeRdvTypeName($idRdvType, $rdvTypeName): bool
 {
     $RdvType = new RdvType();
     $RdvType->setId($idRdvType);
@@ -973,7 +976,7 @@ function appointment_changeRdvTypeName($idRdvType, $rdvTypeName)
  * @param $duration
  * @return bool
  */
-function appointment_changeRdvTypeDuration($idRdvType, $duration)
+function appointment_changeRdvTypeDuration($idRdvType, $duration): bool
 {
     $RdvType = new RdvType();
     $RdvType->setId($idRdvType);
@@ -989,7 +992,7 @@ function appointment_changeRdvTypeDuration($idRdvType, $duration)
  * @param $information
  * @return bool
  */
-function appointment_changeRdvTypeInformation($idRdvType, $information)
+function appointment_changeRdvTypeInformation($idRdvType, $information): bool
 {
     $RdvType = new RdvType();
     $RdvType->setId($idRdvType);
@@ -1004,7 +1007,7 @@ function appointment_changeRdvTypeInformation($idRdvType, $information)
  * @param $idRdvType
  * @return bool
  */
-function appointment_changeRdvTypeStatus($idRdvType)
+function appointment_changeRdvTypeStatus($idRdvType): bool
 {
     $RdvType = new RdvType();
     $RdvType->setId($idRdvType);
@@ -1021,7 +1024,7 @@ function appointment_changeRdvTypeStatus($idRdvType)
  * @param $val
  * @return bool
  */
-function appointment_updateAgendaSetting($key, $val)
+function appointment_updateAgendaSetting($key, $val): bool
 {
     $Option = new Option();
     $Option->setType('APPOINTMENT');
@@ -1039,7 +1042,7 @@ function appointment_updateAgendaSetting($key, $val)
  * @param $idAgenda
  * @return bool
  */
-function appointment_deleteAgenda($idAgenda)
+function appointment_deleteAgenda($idAgenda): bool
 {
     $Agenda = new Agenda();
     $Agenda->setId($idAgenda);
@@ -1050,7 +1053,7 @@ function appointment_deleteAgenda($idAgenda)
  * @param $idMeta
  * @return bool
  */
-function appointment_deleteAgendaMeta($idMeta)
+function appointment_deleteAgendaMeta($idMeta): bool
 {
     $AgendaMeta = new AgendaMeta();
     $AgendaMeta->setId($idMeta);
@@ -1061,7 +1064,7 @@ function appointment_deleteAgendaMeta($idMeta)
  * @param $idAvailability
  * @return bool
  */
-function appointment_deleteAvailability($idAvailability)
+function appointment_deleteAvailability($idAvailability): bool
 {
     $Availability = new Availabilities();
     $Availability->setId($idAvailability);
@@ -1072,7 +1075,7 @@ function appointment_deleteAvailability($idAvailability)
  * @param $idRdvType
  * @return bool
  */
-function appointment_deleteRdvType($idRdvType)
+function appointment_deleteRdvType($idRdvType): bool
 {
     $RdvType = new RdvType();
     $RdvType->setId($idRdvType);
@@ -1082,8 +1085,9 @@ function appointment_deleteRdvType($idRdvType)
 /**
  * @param $idRdv
  * @return bool
+ * @throws \PHPMailer\PHPMailer\Exception
  */
-function appointment_deleteRdv($idRdv)
+function appointment_deleteRdv($idRdv): bool
 {
     $Rdv = new Rdv();
     $Rdv->setId($idRdv);
@@ -1128,7 +1132,7 @@ function appointment_deleteRdv($idRdv)
  * @param $idRdv
  * @return bool
  */
-function appointment_confirmRdv($idRdv)
+function appointment_confirmRdv($idRdv): bool
 {
     $Rdv = new Rdv();
     $Rdv->setId($idRdv);
@@ -1143,7 +1147,7 @@ function appointment_confirmRdv($idRdv)
  * @param $idClient
  * @return bool
  */
-function appointment_confirmClient($idClient)
+function appointment_confirmClient($idClient): bool
 {
     $Client = new Client();
     $Client->setId($idClient);
@@ -1171,7 +1175,7 @@ function appointment_confirmClient($idClient)
  * @param $end
  * @return bool
  */
-function appointment_makeTheTimeSlotUnavailable($idAgenda, $date, $start, $end)
+function appointment_makeTheTimeSlotUnavailable($idAgenda, $date, $start, $end): bool
 {
     $Exception = new Exception();
     $Exception->setIdAgenda($idAgenda);
@@ -1195,7 +1199,7 @@ function appointment_makeTheTimeSlotUnavailable($idAgenda, $date, $start, $end)
  * @param $ids
  * @return bool
  */
-function appointment_makeTheTimeSlotAvailable($ids)
+function appointment_makeTheTimeSlotAvailable($ids): bool
 {
     $Exception = new Exception();
     $ids = unserialize(base64_decode($ids));
@@ -1235,7 +1239,7 @@ function appointment_makeTheTimeSlotAvailable($ids)
  * @param $date
  * @return bool
  */
-function appointment_makeTheDayAvailable($idAgenda, $date)
+function appointment_makeTheDayAvailable($idAgenda, $date): bool
 {
     $Exception = new Exception();
 
@@ -1253,7 +1257,7 @@ function appointment_makeTheDayAvailable($idAgenda, $date)
  * @param $idRdvTypeForm
  * @return bool
  */
-function appointment_deleteRdvTypeForm($idRdvTypeForm)
+function appointment_deleteRdvTypeForm($idRdvTypeForm): bool
 {
     $RdvTypeForm = new RdvTypeForm();
     $RdvTypeForm->setId($idRdvTypeForm);
@@ -1264,8 +1268,10 @@ function appointment_deleteRdvTypeForm($idRdvTypeForm)
 
 /**
  * Send a reminder Email
+ * @throws \PHPMailer\PHPMailer\Exception
+ * @throws DateMalformedStringException
  */
-function appointment_cron()
+function appointment_cron(): void
 {
     $Rdv = new Rdv();
     $Rdv->setDate(date('Y-m-d'));
@@ -1292,11 +1298,12 @@ function appointment_cron()
 
 /**
  * @param $idRdv
- * @param null $url
+ * @param ?string $url
  * @param bool $fromAdmin
  * @return bool
+ * @throws \PHPMailer\PHPMailer\Exception
  */
-function appointment_sendInfosEmail($idRdv, $url = null, $fromAdmin = false)
+function appointment_sendInfosEmail($idRdv, ?string $url = null, bool $fromAdmin = false): bool
 {
 
     $Rdv = new Rdv();
@@ -1381,8 +1388,8 @@ function appointment_sendInfosEmail($idRdv, $url = null, $fromAdmin = false)
 
                 if (!$fromAdmin) {
 
-                    $defaultEmail = getOption('DATA', 'defaultEmail');
-                    if ($defaultEmail && !empty($defaultEmail)) {
+                    $defaultEmail = getOption('DATA', 'defaultEmail') ?: null;
+                    if (!empty($defaultEmail)) {
 
                         $message = '<h2>Nouveau RDV chez ' . $Agenda->getName() . '</h2>';
                         $message .= '<p>Date :<strong> ' . $rdvRemind . '</strong><br>';
@@ -1415,7 +1422,7 @@ function appointment_sendInfosEmail($idRdv, $url = null, $fromAdmin = false)
 /**
  *
  */
-function removeUnconfirmedRdvAndClient()
+function removeUnconfirmedRdvAndClient(): void
 {
 
     //Remove unconfirmed RDV
@@ -1450,10 +1457,11 @@ function removeUnconfirmedRdvAndClient()
 }
 
 /**
+ * @param string|int $idAgenda
  * @return string
- * @throws Exception
+ * @throws \PHPMailer\PHPMailer\Exception
  */
-function appointment_agenda_getBtns($idAgenda = '')
+function appointment_agenda_getBtns(int|string $idAgenda = ''): string
 {
     $html = '';
 
@@ -1594,8 +1602,8 @@ function appointment_agenda_getBtns($idAgenda = '')
 
             if (count($agendas) > 1) {
                 $html .= '<section id="agendas" class="appointmentAppoe"><h2>' . (getOption('APPOINTMENT', 'agendaTitle') ?: APPOINTMENT_AGENDA_CHOICE_TITLE) . '</h2>';
-                foreach ($agendas as $agenda) {
-                    $html .= '<button class="button btn-round grey agendaChoice ' . (count($agendas) == 1 ? 'activeAgendaBtn' : '') . '" data-id-agenda="' . $agenda->id . '">' . $agenda->name . '</button>';
+                foreach ($agendas as $key => $agenda) {
+                    $html .= '<button class="button btn-round grey agendaChoice ' . ($key == 0 ? 'activeAgendaBtn' : '') . '" data-id-agenda="' . $agenda->id . '">' . $agenda->name . '</button>';
                 }
                 $html .= '</section>';
             } elseif (count($agendas) == 1) {
@@ -1621,7 +1629,7 @@ function appointment_agenda_getBtns($idAgenda = '')
  * @param $idAgenda
  * @return string
  */
-function appointment_rdvType_getBtns($idAgenda)
+function appointment_rdvType_getBtns($idAgenda): string
 {
     $html = '';
     $RdvType = new RdvType();
@@ -1648,9 +1656,8 @@ function appointment_rdvType_getBtns($idAgenda)
  * @param $idAgenda
  * @param $idRdvType
  * @return string
- * @throws Exception
  */
-function appointment_dates_get($idAgenda, $idRdvType)
+function appointment_dates_get($idAgenda, $idRdvType): string
 {
     $numberOfDays = 90;
     $Date = new DateTime();
@@ -1702,7 +1709,7 @@ function appointment_dates_get($idAgenda, $idRdvType)
  * @param $rdvTypeDuration
  * @return string
  */
-function appointment_availabilities_get($idAgenda, $date, $rdvTypeDuration)
+function appointment_availabilities_get($idAgenda, $date, $rdvTypeDuration): string
 {
 
     $html = '';
@@ -1738,7 +1745,7 @@ function appointment_availabilities_get($idAgenda, $date, $rdvTypeDuration)
  * @param $compressHour
  * @return string
  */
-function appointment_availabilities_getBtns($idAgenda, $date, $booking, $start, $end, $rdvTypeDuration, $compressHour)
+function appointment_availabilities_getBtns($idAgenda, $date, $booking, $start, $end, $rdvTypeDuration, $compressHour): string
 {
     $html = '<section class="agendaAvailabilities appointmentAppoe">';
     $availabilities = 0;
@@ -1754,7 +1761,7 @@ function appointment_availabilities_getBtns($idAgenda, $date, $booking, $start, 
             break;
         }
 
-        if (appointment_isUnvailableHour($time, $allExceptions, $rdvTypeDuration, $compressHour)) {
+        if (appointment_isUnavailableHour($time, $allExceptions, $rdvTypeDuration, $compressHour)) {
             continue;
         }
 
@@ -1789,10 +1796,10 @@ function appointment_availabilities_getBtns($idAgenda, $date, $booking, $start, 
  * @param $start
  * @param $end
  * @param $rdvTypeDuration
- * @param $compressHour
+ * @param bool $compressHour
  * @return string
  */
-function appointment_admin_availabilities_get($allRdv, $allExceptions, $start, $end, $rdvTypeDuration, $compressHour = false)
+function appointment_admin_availabilities_get($allRdv, $allExceptions, $start, $end, $rdvTypeDuration, bool $compressHour = false): string
 {
     $html = '<ul class="list-group mt-4 mb-3">';
     $time = $start;
@@ -1807,7 +1814,7 @@ function appointment_admin_availabilities_get($allRdv, $allExceptions, $start, $
 
         $html .= '<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">';
 
-        if ($exceptions = appointment_admin_isUnvailableHour($time, $allExceptions, $rdvTypeDuration)) {
+        if ($exceptions = appointment_admin_isUnavailableHour($time, $allExceptions, $rdvTypeDuration)) {
             if (!empty($exceptions)) {
                 $html .= minutesToHours($time) . ' - ' . minutesToHours($time + $rdvTypeDuration);
                 $html .= '<div><button class="btn btn-sm btn-dark MakeTheTimeSlotAvailable"
@@ -1900,8 +1907,9 @@ function appointment_admin_availabilities_get($allRdv, $allExceptions, $start, $
 /**
  * @param $idRdvType
  * @return string
+ * @throws \Random\RandomException
  */
-function appointment_rdvTypeForm_get($idRdvType)
+function appointment_rdvTypeForm_get($idRdvType): string
 {
     $html = '<section id="agendaForm" class="appointmentAppoe" data-id-rdv-type="' . $idRdvType . '"><h2>' . (getOption('APPOINTMENT', 'formTitle') ?: APPOINTMENT_FORM_TITLE) . '</h2>';
     $html .= '<form id="appointmentFormulaire" data-ftype="appointment" action="' . APPOINTMENT_URL . 'ajax/mail.php">';
@@ -1922,10 +1930,10 @@ function appointment_rdvTypeForm_get($idRdvType)
         }
     }
 
-    $html .= '<div id="defaultFields"><label for="appointment_lastName">Nom *<input type="text" name="appointment_lastName" id="appointment_lastName" required="true" value="' . $lastName . '" placeholder="Entrez votre nom"></label>';
-    $html .= '<label for="appointment_firstName">Prénom *<input type="text" id="appointment_firstName" name="appointment_firstName" required="true"  value="' . $firstName . '" placeholder="Entrez votre prénom"></label>';
-    $html .= '<label for="appointment_email">Adresse mail *<input type="email" name="appointment_email" id="appointment_email" required="true"  value="' . $email . '" placeholder="Entrez votre e-mail"></label>';
-    $html .= '<label for="appointment_tel">Téléphone *<input type="tel" name="appointment_tel" id="appointment_tel" required="true" value="' . $tel . '" placeholder="Entrez votre téléphone"></label></div>';
+    $html .= '<div id="defaultFields"><label for="appointment_lastName">Nom *<input type="text" name="appointment_lastName" id="appointment_lastName" required value="' . $lastName . '" placeholder="Entrez votre nom"></label>';
+    $html .= '<label for="appointment_firstName">Prénom *<input type="text" id="appointment_firstName" name="appointment_firstName" required  value="' . $firstName . '" placeholder="Entrez votre prénom"></label>';
+    $html .= '<label for="appointment_email">Adresse mail *<input type="email" name="appointment_email" id="appointment_email" required  value="' . $email . '" placeholder="Entrez votre e-mail"></label>';
+    $html .= '<label for="appointment_tel">Téléphone *<input type="tel" name="appointment_tel" id="appointment_tel" required value="' . $tel . '" placeholder="Entrez votre téléphone"></label></div>';
 
     $RdvTypeForm = new RdvTypeForm();
     $RdvTypeForm->setIdRdvType($idRdvType);
@@ -1958,7 +1966,7 @@ function appointment_rdvTypeForm_get($idRdvType)
  * @param $end
  * @return array|false
  */
-function appointment_getRdv($idAgenda, $start, $end)
+function appointment_getRdv($idAgenda, $start, $end): array|false
 {
     $Rdv = new Rdv();
     $Rdv->setIdAgenda($idAgenda);
@@ -1976,7 +1984,7 @@ function appointment_getRdv($idAgenda, $start, $end)
  * @param $date
  * @return array|false
  */
-function appointment_getRdvByDate($idAgenda, $date)
+function appointment_getRdvByDate($idAgenda, $date): array|false
 {
     $Rdv = new Rdv();
     $Rdv->setIdAgenda($idAgenda);
@@ -1992,7 +2000,7 @@ function appointment_getRdvByDate($idAgenda, $date)
  * @param $email
  * @return int|false
  */
-function appointment_client_check($email)
+function appointment_client_check($email): int|false
 {
     $Client = new Client();
     $Client->setEmail($email);
@@ -2000,7 +2008,7 @@ function appointment_client_check($email)
         $Client->showByEmail();
 
         if ($Client->getStatus()) {
-            return $Client->getId();
+            return (int) $Client->getId();
         }
     }
 
@@ -2014,11 +2022,11 @@ function appointment_client_check($email)
  * @param bool $onlyAvailability
  * @return bool
  */
-function appointment_isAvailableDay($day, array $availabilities, array $exceptions = [], $onlyAvailability = false)
+function appointment_isAvailableDay($day, array $availabilities, array $exceptions = [], bool $onlyAvailability = false): bool
 {
     $dayInWeek = date('w', strtotime($day));
 
-    if (is_array($availabilities) && is_array($exceptions)) {
+    if (is_array($exceptions)) {
 
         foreach ($availabilities as $availability) {
             if ($availability->day == $dayInWeek) {
@@ -2029,10 +2037,12 @@ function appointment_isAvailableDay($day, array $availabilities, array $exceptio
                 }
 
                 if (!$onlyAvailability) {
-                    foreach ($exceptions as $exception) {
-                        if (($exception->date == $day || ($exception->endDate && $exception->date <= $day && $exception->endDate >= $day))
-                            && $exception->start == 0 && $exception->end == 1440) {
-                            return false;
+                    if (!isArrayEmpty($exceptions)) {
+                        foreach ($exceptions as $exception) {
+                            if (($exception->date == $day || ($exception->endDate && $exception->date <= $day && $exception->endDate >= $day))
+                                && $exception->start == 0 && $exception->end == 1440) {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -2052,7 +2062,7 @@ function appointment_isAvailableDay($day, array $availabilities, array $exceptio
  * @param $compressHour
  * @return bool
  */
-function appointment_isBooked(&$time, $booking, $rdvDuration, $compressHour)
+function appointment_isBooked(&$time, $booking, $rdvDuration, $compressHour): bool
 {
     if (!empty($booking)) {
         foreach ($booking as $rdv) {
@@ -2075,7 +2085,7 @@ function appointment_isBooked(&$time, $booking, $rdvDuration, $compressHour)
  * @param $rdvDuration
  * @return bool|object
  */
-function appointment_admin_isBooked($time, $allRdv, $rdvDuration)
+function appointment_admin_isBooked($time, $allRdv, $rdvDuration): bool|object
 {
     if (is_array($allRdv) && !empty($allRdv)) {
         foreach ($allRdv as $rdv) {
@@ -2095,7 +2105,7 @@ function appointment_admin_isBooked($time, $allRdv, $rdvDuration)
  * @param $compressHour
  * @return bool
  */
-function appointment_isUnvailableHour(&$time, $allExceptions, $rdvDuration, $compressHour)
+function appointment_isUnavailableHour(&$time, $allExceptions, $rdvDuration, $compressHour): bool
 {
 
     if (!empty($allExceptions)) {
@@ -2124,7 +2134,7 @@ function appointment_isUnvailableHour(&$time, $allExceptions, $rdvDuration, $com
  * @param $rdvDuration
  * @return array
  */
-function appointment_admin_isUnvailableHour($time, $allExceptions, $rdvDuration)
+function appointment_admin_isUnavailableHour($time, $allExceptions, $rdvDuration): array
 {
     $exceptions = [];
     if (!empty($allExceptions)) {
@@ -2150,7 +2160,7 @@ function appointment_admin_isUnvailableHour($time, $allExceptions, $rdvDuration)
 /**
  * @return string[]
  */
-function appointment_getWeekDays()
+function appointment_getWeekDays(): array
 {
     return array(0 => 'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi');
 }

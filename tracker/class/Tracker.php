@@ -9,26 +9,71 @@ use App\Plugin\Tracker\Browser;
 class Tracker
 {
 
-    private $tableName = '`' . TABLEPREFIX . 'appoe_plugin_tracker`';
-    private $id;
-    private $date;
-    private $ip;
-    private $pageId;
-    private $pageType;
-    private $pageName;
-    private $pageSlug;
-    private $referer = null;
-    private $device = null;
-    private $browserName = null;
-    private $browserVersion = null;
-    private $osName = null;
-    private $osVersion = null;
+    /**
+     * @var string
+     */
+    private string $tableName = '`' . TABLEPREFIX . 'appoe_plugin_tracker`';
+    /**
+     * @var int
+     */
+    private int $id;
+    /**
+     * @var string
+     */
+    private string $date;
+    /**
+     * @var string
+     */
+    private string $ip;
+    /**
+     * @var int|string
+     */
+    private int|string $pageId;
+    /**
+     * @var string
+     */
+    private string $pageType;
+    /**
+     * @var string
+     */
+    private string $pageName;
+    /**
+     * @var string
+     */
+    private string $pageSlug;
+    /**
+     * @var string|null
+     */
+    private ?string $referer = null;
+    /**
+     * @var string|null
+     */
+    private ?string $device = null;
+    /**
+     * @var string|null
+     */
+    private ?string $browserName = null;
+    /**
+     * @var string|null
+     */
+    private ?string $browserVersion = null;
+    /**
+     * @var string|null
+     */
+    private ?string $osName = null;
+    /**
+     * @var string|null
+     */
+    private ?string $osVersion = null;
 
-    public function __construct($save = false)
+    /**
+     * @param bool $save
+     */
+    public function __construct(bool $save = false)
     {
         if ($save) {
             $this->date = date('Y-m-d H:i:s');
-            $this->ip = getIP();
+            $this->ip = getIP() ?: '';
             $this->pageId = getPageParam('currentPageID');
             $this->pageType = getPageParam('currentPageType');
             $this->pageName = getPageParam('currentPageName');
@@ -53,9 +98,9 @@ class Tracker
     }
 
     /**
-     * @return mixed
+     * @return bool|object
      */
-    public function save(): mixed
+    public function save(): bool|object
     {
 
         $attributeToSave = array('date', 'ip', 'pageId', 'pageType', 'pageName', 'pageSlug', 'referer', 'device', 'browserName', 'browserVersion', 'osName', 'osVersion');
@@ -69,209 +114,209 @@ class Tracker
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId(): mixed
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId(mixed $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDate(): mixed
+    public function getDate(): string
     {
         return $this->date;
     }
 
     /**
-     * @param mixed $date
+     * @param string $date
      */
-    public function setDate(mixed $date): void
+    public function setDate(string $date): void
     {
         $this->date = $date;
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function getIp(): bool
+    public function getIp(): string
     {
         return $this->ip;
     }
 
     /**
-     * @param mixed $ip
+     * @param string $ip
      */
-    public function setIp(mixed $ip): void
+    public function setIp(string $ip): void
     {
         $this->ip = $ip;
     }
 
     /**
-     * @return mixed
+     * @return int|string
      */
-    public function getPageId(): mixed
+    public function getPageId(): int|string
     {
         return $this->pageId;
     }
 
     /**
-     * @param mixed $pageId
+     * @param int|string $pageId
      */
-    public function setPageId(mixed $pageId): void
+    public function setPageId(int|string $pageId): void
     {
         $this->pageId = $pageId;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPageType(): mixed
+    public function getPageType(): string
     {
         return $this->pageType;
     }
 
     /**
-     * @param mixed $pageType
+     * @param string $pageType
      */
-    public function setPageType(mixed $pageType): void
+    public function setPageType(string $pageType): void
     {
         $this->pageType = $pageType;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPageName(): mixed
+    public function getPageName(): string
     {
         return $this->pageName;
     }
 
     /**
-     * @param mixed $pageName
+     * @param string $pageName
      */
-    public function setPageName(mixed $pageName): void
+    public function setPageName(string $pageName): void
     {
         $this->pageName = $pageName;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPageSlug(): mixed
+    public function getPageSlug(): string
     {
         return $this->pageSlug;
     }
 
     /**
-     * @param mixed $pageSlug
+     * @param string $pageSlug
      */
-    public function setPageSlug(mixed $pageSlug): void
+    public function setPageSlug(string $pageSlug): void
     {
         $this->pageSlug = $pageSlug;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getReferer(): mixed
+    public function getReferer(): ?string
     {
         return $this->referer;
     }
 
     /**
-     * @param mixed $referer
+     * @param ?string $referer
      */
-    public function setReferer(mixed $referer): void
+    public function setReferer(?string $referer): void
     {
         $this->referer = $referer;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getDevice(): mixed
+    public function getDevice(): ?string
     {
         return $this->device;
     }
 
     /**
-     * @param mixed $device
+     * @param ?string $device
      */
-    public function setDevice(mixed $device): void
+    public function setDevice(?string $device): void
     {
         $this->device = $device;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getBrowserName(): mixed
+    public function getBrowserName(): ?string
     {
         return $this->browserName;
     }
 
     /**
-     * @param mixed $browserName
+     * @param ?string $browserName
      */
-    public function setBrowserName(mixed $browserName): void
+    public function setBrowserName(?string $browserName): void
     {
         $this->browserName = $browserName;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getBrowserVersion(): mixed
+    public function getBrowserVersion(): ?string
     {
         return $this->browserVersion;
     }
 
     /**
-     * @param mixed $browserVersion
+     * @param ?string $browserVersion
      */
-    public function setBrowserVersion(mixed $browserVersion): void
+    public function setBrowserVersion(?string $browserVersion): void
     {
         $this->browserVersion = $browserVersion;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getOsName(): mixed
+    public function getOsName(): ?string
     {
         return $this->osName;
     }
 
     /**
-     * @param mixed $osName
+     * @param ?string $osName
      */
-    public function setOsName(mixed $osName): void
+    public function setOsName(?string $osName): void
     {
         $this->osName = $osName;
     }
 
     /**
-     * @return mixed
+     * @return ?string
      */
-    public function getOsVersion(): mixed
+    public function getOsVersion(): ?string
     {
         return $this->osVersion;
     }
 
     /**
-     * @param mixed $osVersion
+     * @param ?string $osVersion
      */
-    public function setOsVersion(mixed $osVersion): void
+    public function setOsVersion(?string $osVersion): void
     {
         $this->osVersion = $osVersion;
     }
@@ -303,11 +348,11 @@ class Tracker
     }
 
     /**
-     * @param mixed|null $dateStart
-     * @param mixed|null $dateEnd
-     * @return bool|mixed
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
+     * @return bool|object|array
      */
-    public function showBetweenDates(mixed $dateStart = null, mixed $dateEnd = null): mixed
+    public function showBetweenDates(?string $dateStart = null, ?string $dateEnd = null): bool|object|array
     {
         $params = [];
         $sql = 'SELECT date, ip, pageType, pageName FROM ' . $this->tableName;
@@ -334,12 +379,11 @@ class Tracker
     }
 
     /**
-     *
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return array
      */
-    public function getData(string $dateStart = null, string $dateEnd = null): array
+    public function getData(?string $dateStart = null, ?string $dateEnd = null): array
     {
         //collecte des données
         $data['visitors'] = $this->showCountVisitorsBetweenDates($dateStart, $dateEnd);
@@ -381,11 +425,11 @@ class Tracker
 
     /**
      * Retourne le nb de pages consultées, le nb de visiteurs uniques, et le nb visiteurs uniques par 24h
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return object|array|bool
      */
-    public function showCountVisitorsBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
+    public function showCountVisitorsBetweenDates(?string $dateStart = null, ?string $dateEnd = null): object|array|bool
     {
         $params = [];
 
@@ -407,11 +451,11 @@ class Tracker
 
     /**
      * Compte le nb de pages servies selon leur type (PAGE, ARTICLE, SHOP)
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return object|array|bool
      */
-    public function showCountPagesTypeBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
+    public function showCountPagesTypeBetweenDates(?string $dateStart = null, ?string $dateEnd = null): object|array|bool
     {
         $params = [];
 
@@ -431,11 +475,11 @@ class Tracker
 
     /**
      * Compte le nb de pages servies selon leur nom et leur type (PAGE, ARTICLE, SHOP)
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return object|array|bool
      */
-    public function showCountPagesBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
+    public function showCountPagesBetweenDates(?string $dateStart = null, ?string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = 'SELECT `pageType`, `pageName`, COUNT(`pageName`) AS count FROM ' . $this->tableName;
@@ -459,11 +503,11 @@ class Tracker
     /**
      * Retourne un objet contenant le nombre d’appareils différents par type d’appareil (Ordinateur, Mobile ou Autre)
      *
-     * @param mixed|null $dateStart
-     * @param mixed|null $dateEnd
-     * @return bool|mixed
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
+     * @return bool|array|object
      */
-    public function showCountDevicesTypeBetweenDates(mixed $dateStart = null, mixed $dateEnd = null): mixed
+    public function showCountDevicesTypeBetweenDates(?string $dateStart = null, ?string $dateEnd = null): bool|array|object
     {
         $params = [];
 
@@ -483,11 +527,11 @@ class Tracker
     /**
      * Retourne un tableau d’objets, chaque objet contenant le type d’appareil, son OS, le navigateur utilisé et son nombre d'occurrences
      *
-     * @param mixed|null $dateStart
-     * @param mixed|null $dateEnd
-     * @return bool|mixed
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
+     * @return bool|array|object
      */
-    public function showCountDevicesBetweenDates(mixed $dateStart = null, mixed $dateEnd = null): mixed
+    public function showCountDevicesBetweenDates(?string $dateStart = null, ?string $dateEnd = null): bool|array|object
     {
         $params = [];
         $sql = ' SELECT
@@ -515,11 +559,11 @@ class Tracker
     /**
      * Retourne un objet contenant, pour un pageID spécifique, le nombre d’appareils différents par type d’appareil (ordinateur, mobile ou autre).
      *
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return object|array|bool
      */
-    public function showCountDevicesTypeForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
+    public function showCountDevicesTypeForShopBetweenDates(?string $dateStart = null, ?string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = 'SELECT COUNT(DISTINCT CASE WHEN `device` = "desktop" THEN `ip` END) AS ordinateur, COUNT(DISTINCT CASE WHEN `device` = "mobile" THEN `ip` END) AS mobile, COUNT(DISTINCT CASE WHEN `device` = "unknown" THEN `ip` END) AS autre FROM ' . $this->tableName;
@@ -539,11 +583,11 @@ class Tracker
     /**
      * Retourne un tableau d’objets, chaque objet contenant le type d’appareil, son OS, le navigateur utilisé et son nombre d'occurrences pour le pageID spécifié.
      *
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return object|array|bool
      */
-    public function showCountDevicesForShopBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
+    public function showCountDevicesForShopBetweenDates(?string $dateStart = null, ?string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = ' SELECT
@@ -568,11 +612,11 @@ class Tracker
     /**
      * Retourne les adresses Referer et leur décompte
      *
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return object|array|bool
      */
-    public function showCountRefererBetweenDates(string $dateStart = null, string $dateEnd = null): object|array|bool
+    public function showCountRefererBetweenDates(?string $dateStart = null, ?string $dateEnd = null): object|array|bool
     {
         $params = [];
         $sql = ' SELECT `referer`, COUNT(*) AS count FROM ' . $this->tableName;
@@ -590,8 +634,8 @@ class Tracker
     /**
      * Retourne selon les valeurs $dateStart et $dateEnd une string qui compléte les requêtes sql, et modifie le tableau $params
      * @param array &$params
-     * @param string|null $dateStart
-     * @param string|null $dateEnd
+     * @param ?string $dateStart
+     * @param ?string $dateEnd
      * @return string
      */
     private function addConditions(array &$params, ?string $dateStart, ?string $dateEnd): string

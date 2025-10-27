@@ -64,10 +64,10 @@ class Browser
     /**
      * Reset all common defined properties method
      *
-     * @return null
+     * @return void
      */
 
-    private function resetProperties()
+    private function resetProperties(): void
     {
         $this->real_os_name = '';
         $this->result_ios = FALSE;
@@ -92,7 +92,7 @@ class Browser
         $this->result_browser_ios_webview = 0;
         $this->result_browser_desktop_mode = 0;
         $this->result_64bits_mode = 0;
-        return NULL;
+  
     }
 
     /**
@@ -127,7 +127,7 @@ class Browser
             $data_a = explode('|', $data);
             foreach ($data_a as $v)
             {
-                if ($case_s == FALSE)
+                if (!$case_s)
                 {
                     if (str_contains($this->useragent, $v)) return TRUE;
                 }
@@ -174,33 +174,37 @@ class Browser
      * Detect mobile OS
      * The method will try to recognize mobile OS signs from $useragent property and will placed true in result_mobile property if mobile OS found, false otherwise.
      *
-     * @return null
+     * @return void
      */
 
-    private function match_mobile()
+    private function match_mobile(): void
     {
         // Match 64 bits Windows Desktop OS
 
         if ($this->match_ua('WOW64|Win64'))
         {
             $this->result_64bits_mode = 1;
-            return NULL;
+            return;
         }
 
         // Match Windows Desktop OS
 
-        if ($this->match_ua('Windows NT')) return NULL;
+
+        if ($this->match_ua('Windows NT')) {
+            return;
+        }
 
         // Match Qt embedded system
 
-        if ($this->match_ua('QtEmbedded;')) return NULL;
-
+        if ($this->match_ua('QtEmbedded;')) {
+            return;
+        }
         // Match Android OS
 
         if ($this->match_ua('Android'))
         {
             $this->result_mobile = 1;
-            return NULL;
+            return;
         }
 
         // Match iOS
@@ -208,7 +212,7 @@ class Browser
         if ($this->match_ios())
         {
             $this->result_mobile = 1;
-            return NULL;
+            return;
         }
 
         // Match iOS browsers in Desktop Mode
@@ -216,7 +220,7 @@ class Browser
         if ($this->match_ua('Mac OS X'))
         {
             if ($this->match_ua('/Mac\sOS\sX.*iOS/')) $this->result_mobile = 1;
-            return NULL;
+            return;
         }
 
         // Match Android browsers in Desktop Mode
@@ -224,13 +228,13 @@ class Browser
         if ($this->match_ua('/X11\;(?:[U\;\s]+)?\sLinux/') && $this->match_ua('Version/4.0 Chrome/|SamsungBrowser|Miui|XiaoMi|EdgA|Puffin|UCBrowser|JioPages|Ecosia android'))
         {
             $this->result_mobile = 1;
-            return NULL;
+            return;
         }
 
         // Match other mobile signs
 
         if ($this->matchi_ua('mobile|tablet') || $this->match_ua('BlackBerry|BB10;|MIDP|PlayBook|Windows Phone|Windows Mobile|Windows CE|IEMobile|Opera Mini|OPiOS|Opera Mobi|CrKey armv|Kindle|Silk/|Bada|Tizen|Lumia|Symbian|SymbOS|(Series|PalmOS|PalmSource|Dolfin|Crosswalk|Obigo|MQQBrowser|CriOS|WhatsApp/') || $this->matchi_ua('nokia|playstation|watch')) $this->result_mobile = 1;
-        return NULL;
+        return;
     }
 
     /**
@@ -1681,5 +1685,3 @@ class Browser
         return NULL;
     }
 }
-
-?>

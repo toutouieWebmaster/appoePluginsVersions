@@ -3,18 +3,46 @@
 namespace App\Plugin\Cms;
 
 use App\Form;
+use Random\RandomException;
 
 class CmsTemplate
 {
+    /**
+     * @var array
+     */
     protected $pageDbData;
+    /**
+     * @var
+     */
     protected $pageSlug;
+    /**
+     * @var string
+     */
     protected $pageHtmlContent;
+    /**
+     * @var
+     */
     protected $pageHtmlZones;
 
+    /**
+     * @var string
+     */
     protected $defaultCol = '12';
+    /**
+     * @var array
+     */
     protected $allMetaKeys = [];
+    /**
+     * @var string
+     */
     protected $html = '';
 
+    /**
+     * @param $pageSlug
+     * @param $pageDbData
+     * @param $getHtmlContent
+     * @throws RandomException
+     */
     public function __construct($pageSlug, $pageDbData, $getHtmlContent = false)
     {
         $this->pageSlug = $pageSlug;
@@ -26,7 +54,7 @@ class CmsTemplate
     /**
      * Show content
      */
-    public function show()
+    public function show(): void
     {
         echo !empty($this->html) ? $this->html : '';
     }
@@ -42,7 +70,7 @@ class CmsTemplate
     /**
      * @param bool $getHtmlContent
      */
-    public function set($getHtmlContent = false)
+    public function set(bool $getHtmlContent = false): void
     {
 
         //Check zones types
@@ -72,7 +100,7 @@ class CmsTemplate
     /**
      * @return mixed
      */
-    public function buildHtmlFrontZone()
+    public function buildHtmlFrontZone(): mixed
     {
 
         foreach ($this->pageHtmlZones[1] as $i => $adminZone) {
@@ -105,17 +133,17 @@ class CmsTemplate
     }
 
     /**
-     * @param $zone
+     * @param ?string $zone
      * @return string
      */
-    public function buildHtmlAdminZone($zone)
+    public function buildHtmlAdminZone(?string $zone): string
     {
         $html = '';
         $added = '';
         $col = $this->defaultCol;
 
         //Check for form types
-        if (str_contains($zone, '_')) {
+        if ($zone && str_contains($zone, '_')) {
 
             //Get data
             list($metaKey, $formType, $params) = array_pad(explode('_', $zone), 3, '');
@@ -188,8 +216,9 @@ class CmsTemplate
     /**
      * @param array $zones
      * @return array
+     * @throws RandomException
      */
-    public function getZones(array $zones)
+    public function getZones(array $zones): array
     {
         //Clean data
         $zones = cleanRequest($zones);
@@ -197,7 +226,7 @@ class CmsTemplate
         //Zones types array
         $pageHtmlZonesTypes = [];
 
-        foreach ($zones as $i => $adminZone) {
+        foreach ($zones as $adminZone) {
 
             //Check for form type
             if (str_contains($adminZone, '_')) {
@@ -268,9 +297,9 @@ class CmsTemplate
      * @param $formType
      * @param $options
      * @param $value
-     * @return string
+     * @return mixed
      */
-    public function buildHtmlFrontAdded($formType, $options, $value)
+    public function buildHtmlFrontAdded($formType, $options, $value): mixed
     {
 
         if ($formType === 'urlFile') {
@@ -294,7 +323,11 @@ class CmsTemplate
     }
 
 
-    public function getParams($match)
+    /**
+     * @param $match
+     * @return array
+     */
+    public function getParams($match): array
     {
 
         $options = [];
@@ -306,6 +339,11 @@ class CmsTemplate
         return $options;
     }
 
+    /**
+     * @param ?string $text
+     * @param string $type
+     * @return string
+     */
     public function formatText(?string $text, string $type): string
     {
         $text = htmlSpeCharDecode($text ?? '');
@@ -317,7 +355,7 @@ class CmsTemplate
      * @param $formType
      * @return bool
      */
-    public function isAuthorisedFormType($formType)
+    public function isAuthorisedFormType($formType): bool
     {
 
         //Authorised form manage data
@@ -330,7 +368,7 @@ class CmsTemplate
      * @param $formType
      * @return bool
      */
-    public function isAuthorisedHtmlContainer($formType)
+    public function isAuthorisedHtmlContainer($formType): bool
     {
 
         //Authorised HTML Container
@@ -343,7 +381,7 @@ class CmsTemplate
      * @param string $htmlTag
      * @return array
      */
-    public function extractClassFromHtmlTag($htmlTag = '')
+    public function extractClassFromHtmlTag(string $htmlTag = ''): array
     {
         $class = '';
         if (strpos($htmlTag, '.')) {
@@ -359,7 +397,7 @@ class CmsTemplate
     /**
      * @return string
      */
-    public function showErrorPage()
+    public function showErrorPage(): string
     {
         return '<div class="container"><h4>' . trans('Cette page n\'existe pas') . '</h4></div>';
     }

@@ -105,7 +105,7 @@ if (checkAjaxRequest()) {
             exit();
         }
 
-        if (!empty($_POST['clearFilesCache']) && $_POST['clearFilesCache'] == 'OK') {
+        if (!empty($_POST['clearFilesCache']) && $_POST['clearFilesCache'] === 'OK') {
 
             if (clearCache()) {
 

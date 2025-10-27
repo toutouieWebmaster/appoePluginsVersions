@@ -207,8 +207,8 @@ jQuery(document).ready(function ($) {
                 pageLang: $btn.data('page-lang')
             }).done(function (data) {
                 if (data === 'true' || data === true) {
-                    $btn.html('<i class="fas fa-check"></i> Cache vidé!').blur()
-                        .removeClass('btn-outline-danger').addClass('btn-success');
+                    $btn.html('<i class="fas fa-check"></i> Cache vidé!').blur();
+                    $btn.removeClass('btn-outline-danger').addClass('btn-success');
                 } else {
                     alert('Un problème est survenu lors de la vidange du cache');
                 }

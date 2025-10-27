@@ -6,8 +6,7 @@ $Cms = new Cms();
 $Cms->setLang(APP_LANG);
 $allPages = $Cms->showAll();
 
-echo getTitle(getAppPageName(), getAppPageSlug());
-?>
+echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">

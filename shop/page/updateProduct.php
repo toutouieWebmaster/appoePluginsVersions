@@ -11,7 +11,7 @@ if (!empty($_GET['id'])):
 
     $Category = new Category();
     $Category->setType('SHOP');
-    $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
+    $listCategories = extractFromObjToArrForList($Category->showByType(), 'id');
 
     $CategoryRelation = new CategoryRelations('SHOP', $Product->getId());
     $allCategoryRelations = extractFromObjToSimpleArr($CategoryRelation->getData(), 'categoryId', 'name');
@@ -22,6 +22,7 @@ if (!empty($_GET['id'])):
             <div class="col-12">
                 <a href="<?= getPluginUrl('shop/page/updateProductData/', $Product->getId()); ?>"
                    class="btn btn-info btn-sm mb-4">
+					<span class="fas fa-cog"></span>
                     <?= trans('Détails du produit'); ?>
                 </a>
             </div>
@@ -58,7 +59,7 @@ if (!empty($_GET['id'])):
                             <?= Form::text('Épaisseur (en Millimètre)', 'dimension', 'text', $Product->getDimension(), false, 9, '', '', '', 'Ex: 1000 pour 1 m'); ?>
                         </div>
                         <div class="col-12 mt-2">
-                            <?= Form::checkbox('Catégories', 'categories', $listCatgories, $allCategoryRelations, 'checkCategories'); ?>
+                            <?= Form::checkbox('Catégories', 'categories', $listCategories, $allCategoryRelations, 'checkCategories'); ?>
                         </div>
                     </div>
                 </div>

@@ -6,7 +6,7 @@ require('header.php');
 require_once(SHOP_PATH . 'process/addProduct.php');
 $Category = new Category();
 $Category->setType('SHOP');
-$listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
+$listCategories = extractFromObjToArrForList($Category->showByType(), 'id');
 echo getTitle( getAppPageName(), getAppPageSlug() );
 showPostResponse(getDataPostResponse());
 ?>
@@ -26,18 +26,18 @@ showPostResponse(getDataPostResponse());
                             <?= App\Form::select('Type de produit', 'type', TYPE_PRODUCT, !empty($_POST['type']) ? $_POST['type'] : '', true); ?>
                         </div>
                         <div class="col-12 col-lg-4 mt-2">
-                            <?= App\Form::text('Prix (€)', 'price', 'text', !empty($_POST['price']) ? $_POST['price'] : '', true, 9, '', '', '', 'Ex: 16.97', false); ?>
+                            <?= App\Form::text('Prix (€)', 'price', 'number', !empty($_POST['price']) ? $_POST['price'] : '', true, 9, 'step="0.01"', '', '', 'Ex: 16.97', false); ?>
                         </div>
 
                         <div class="col-12 col-lg-4 mt-2">
-                            <?= App\Form::text('Poids (en grammes)', 'poids', 'text', !empty($_POST['poids']) ? $_POST['poids'] : '', false, 9, '', '', '', 'Ex: 1500 pour 1.5 kg', false); ?>
+                            <?= App\Form::text('Poids (en grammes)', 'poids', 'number', !empty($_POST['poids']) ? $_POST['poids'] : '', false, 9, '', '', '', 'Ex: 1500 pour 1.5 kg', false); ?>
                         </div>
 
-                        <div class="col-12 col-lg-4 mt-3">
-                            <?= App\Form::text('Épaisseur (en Millimètre)', 'dimension', 'text', !empty($_POST['dimension']) ? $_POST['dimension'] : '', false, 9, '', '', '', 'Ex: 1000 pour 1 m', false); ?>
+                        <div class="col-12 col-lg-4 mt-2">
+                            <?= App\Form::text('Épaisseur (en mm)', 'dimension', 'number', !empty($_POST['dimension']) ? $_POST['dimension'] : '', false, 9, '', '', '', 'Ex: 1000 pour 1 m', false); ?>
                         </div>
-                        <div class="col-12 mt-2">
-                            <?= App\Form::checkbox('Catégories', 'categories', $listCatgories, '', 'checkCategories'); ?>
+                        <div class="col-12 mt-3">
+                            <?= App\Form::checkbox('Catégories', 'categories', $listCategories, '', 'checkCategories'); ?>
                         </div>
                     </div>
                 </div>

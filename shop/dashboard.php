@@ -1,16 +1,20 @@
 <?php
+
+use App\Menu;
+use App\Plugin\Shop\Commande;
+use App\Plugin\Shop\Product;
 require('main.php');
 if (isUserAuthorized('shop')) {
-    $Commande = new \App\Plugin\Shop\Commande();
+    $Commande = new Commande();
     $allCommandes = $Commande->showAll(0, true, true);
     $allCancelCommandes = $Commande->showAll(0, true, true, 1);
     $allLiveCommandes = $Commande->showAll(0, true, true, 2);
     $allConfirmCommandes = $Commande->showAll(0, true, true, 3);
 
-    $Product = new \App\Plugin\Shop\Product();
+    $Product = new Product();
     $allProducts = $Product->showAll(true);
 
-    $Menu = new \App\Menu();
+    $Menu = new Menu();
     $menuCommandData = $Menu->displayMenuBySlug('commandes');
     $menuProductData = $Menu->displayMenuBySlug('products');
 

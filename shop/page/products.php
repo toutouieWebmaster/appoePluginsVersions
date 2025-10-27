@@ -50,7 +50,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                     </a>
                                     <a href="<?= getPluginUrl('shop/page/updateProduct/', $produit->id); ?>"
                                        class="btn btn-sm"
-                                       title="<?= trans('Configurer'); ?>">
+                                       title="<?= trans('Mise à jour du produit'); ?>">
                                         <span class="btnEdit"><i class="fas fa-wrench"></i></span>
                                     </a>
                                     <button type="button" class="btn btn-sm archiveProduct"

@@ -47,13 +47,14 @@ if (!empty($_GET['id'])):
                             <?php if ($Menu->checkUserPermission(getUserRoleId(), 'updateProduct')): ?>
                                 <a id="updateArticleBtn"
                                    href="<?= getPluginUrl('shop/page/updateProduct/', $Product->getId()); ?>"
-                                   class="btn btn-warning btn-sm">
-                                    <span class="fas fa-cog"></span> <?= trans('Modifier le produit'); ?>
+                                   class="btn btn-info btn-sm">
+                                    <span class="fas fa-wrench"></span> <?= trans('Mise à jour du produit'); ?>
                                 </a>
                             <?php endif; ?>
                             <button type="button" data-toggle="modal" data-target="#modalInfoMetaProduct"
-                                    class="btn btn-info btn-sm">
-                                <?= trans('Détails du produit'); ?>
+                                    class="btn btn-warning btn-sm">
+								<span class="fas fa-wrench"></span>
+                                <?= trans('Métadonnées du produit'); ?>
                             </button>
                             <select class="custom-select otherProductsSelect otherProjetSelect notPrint float-right"
                                     title="<?= trans('Parcourir les produits'); ?>...">

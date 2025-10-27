@@ -602,7 +602,7 @@ class Product
      * Feed class attributs
      * @param $data
      */
-    public function feed($data)
+    public function feed($data): void
     {
         foreach ($data as $attribut => $value) {
             $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribut)));

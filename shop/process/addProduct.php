@@ -1,5 +1,6 @@
 <?php
 
+use App\CategoryRelations;
 use App\Plugin\Shop\Product;
 
 if (checkPostAndTokenRequest()) {
@@ -20,12 +21,13 @@ if (checkPostAndTokenRequest()) {
 
         //Add Produit
         $Product->feed($_POST);
-
+        $Product->setPoids($_POST['poids'] ?: null);
+        $Product->setDimension($_POST['dimension'] ?: null);
         if (!$Product->exist()) {
             if ($Product->save()) {
 
                 //Categories
-                $CategoryRelation = new \App\CategoryRelations('SHOP', $Product->getId());
+                $CategoryRelation = new CategoryRelations('SHOP', $Product->getId());
 
                 if (!empty($_POST['categories'])) {
                     foreach ($_POST['categories'] as $chosenCategory) {
@@ -45,7 +47,7 @@ if (checkPostAndTokenRequest()) {
 
                 //Delete post data
                 unset($_POST);
-                setPostResponse('Le produit a été enregistré', 'success', ('<a href="' . getPluginUrl('cms/page/updateProductData/', $Product->getId()) . '">' . trans('Voir les détails du produit') . '</a>'));
+                setPostResponse('Le produit a été enregistré', 'success', ('<a href="' . getPluginUrl('shop/page/updateProductData/', $Product->getId()) . '">' . trans('Voir les détails du produit') . '</a>'));
 
             } else {
                 setPostResponse('Un problème est survenu lors de l\'enregistrement du produit');

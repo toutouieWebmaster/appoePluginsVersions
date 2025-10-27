@@ -1,7 +1,8 @@
-<?php require( 'header.php' );
+<?php use App\Plugin\MessagIn\MessagIn;
+require( 'header.php' );
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="container-fluid">
-        <?php $MessagIn = new \App\Plugin\MessagIn\MessagIn();
+        <?php $MessagIn = new MessagIn();
         $MessagIn->setToUser( getUserIdSession() );
         $allMessages = $MessagIn->showAll();
         $ALLUSERS    = getAllUsers();
@@ -58,8 +59,8 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                                                                        class="custom-control-input changeStatut"
                                                                        data-idmessage="<?= $message->id; ?>"
                                                                        id="message<?= $message->id; ?>">
-                                                                <label class="custom-control-label"
-                                                                       for="message<?= $message->id; ?>"></label>
+                                                                <label class="custom-control-label" style="margin-right: 7px;" id="message<?= $message->id; ?>_label"
+                                                                       for="message<?= $message->id; ?>"><?= $message->statut ? 'Lu' : 'Non lu'; ?></label>
                                                             </div>
                                                         </div>
                                                         <div class="d-inline-block msgTextContainer">
@@ -106,7 +107,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                 $msgBadge.text($nbMsgBadge - 1);
                 $nbMsgContainer.text($nbMsgCounter - 1);
 
-                if ($nbMsgCounter == 1) {
+                if ($nbMsgCounter === 1) {
                     $msgBadge.remove();
                 } else if ($nbMsgCounter <= 11) {
                     $msgContainer.find('div.msgContent').removeClass('tooMuchMessage');
@@ -129,7 +130,7 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
 
             $('.seeMoreMessages').unbind().click(function () {
                 clickTimes++;
-                if (clickTimes == 2) {
+                if (clickTimes === 2) {
                     clickTimes = 0;
                     $(this).html('Voir plus');
                     $('.tooMuchMessage').fadeOut('fast');
@@ -183,9 +184,11 @@ echo getTitle(getAppPageName(), getAppPageSlug()); ?>
                             statutMessage: statut
                         },
                         function (data) {
-                            if (data !== true && data != 'true') {
+                            let statutMessage = statut === 0 ? 'Non lu' : 'Lu';
+                            if (data !== true && data !== 'true') {
                                 alert('Un problème est survenu !')
                             } else {
+                                $('#message' + idMessage + '_label').html(statutMessage);
                                 $input.attr('disabled', false);
                             }
                         }

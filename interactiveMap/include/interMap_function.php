@@ -3,11 +3,11 @@
 /**
  * write on Map json file
  *
- * @param $data
+ * @param ?string $data
  * @param $title
- * @return string
+ * @return bool
  */
-function interMap_writeMapFile($data, $title)
+function interMap_writeMapFile($data, $title): bool
 {
     if ($data) {
         $json_file = fopen(WEB_PLUGIN_PATH . 'interactiveMap/' . slugify($title) . '.json', 'w');

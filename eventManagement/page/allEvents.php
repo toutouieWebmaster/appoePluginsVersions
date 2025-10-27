@@ -1,10 +1,13 @@
-<?php require('header.php');
+<?php use App\Plugin\EventManagement\Auteur;
+use App\Plugin\EventManagement\Event;
+
+require('header.php');
 echo getTitle(getAppPageName(), getAppPageSlug()); ?>
     <div class="container-fluid">
         <?php
-        $Event = new \App\Plugin\EventManagement\Event();
+        $Event = new Event();
         $evenements = $Event->showAll();
-        $Auteur = new \App\Plugin\EventManagement\Auteur();
+        $Auteur = new Auteur();
         ?>
         <div class="row">
             <div class="col-12">

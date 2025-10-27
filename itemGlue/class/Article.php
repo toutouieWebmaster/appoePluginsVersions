@@ -734,7 +734,7 @@ ORDER BY ART.statut DESC, ART.created_at DESC
     /**
      * @return bool
      */
-    public function delete()
+    public function delete(): bool
     {
         //Get Media of Article
         $ArticleMedia = new ArticleMedia($this->id);

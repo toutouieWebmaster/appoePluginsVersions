@@ -23,10 +23,15 @@ if ( checkAjaxRequest() ) {
 			&& $_POST['_token'] == $_SESSION['_token']
 		) {
 
+            if (!isValidDateTime($_POST['dateDebut'] . ' ' . $_POST['heureDebut'], 'd/m/Y H:i')) {
+                echo 'Mauvais formatage de la date';
+                exit();
+            }
 			$Event = new \App\Plugin\EventManagement\Event( $_POST['eventId'] );
 
-			$DateDebut = new DateTime( $_POST['dateDebut'] . $_POST['heureDebut'] );
-			$DateFin   = new DateTime( $_POST['dateDebut'] . $_POST['heureDebut'] );
+			$DateDebut = DateTime::createFromFormat('d/m/Y H:i',$_POST['dateDebut'] . ' ' . $_POST['heureDebut']);
+
+            $DateFin = DateTime::createFromFormat('d/m/Y H:i',$_POST['dateDebut'] . ' ' . $_POST['heureDebut']);
 
 			$localisation = ! empty( $_POST['localisation'] ) ? $_POST['localisation'] : null;
 

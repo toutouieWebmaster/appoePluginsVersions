@@ -128,10 +128,10 @@ function getSearchingArticles($searching)
 /**
  * @param $articleId
  * @param $categories
- * @param bool $length
+ * @param bool|int|null $length
  * @return array
  */
-function getSimilarArticles($articleId, $categories, $length = false)
+function getSimilarArticles($articleId, $categories, bool|int|null $length = false): array
 {
     $relatedArticles = [];
     $allArticles = [];
@@ -237,6 +237,7 @@ function getArticlesArchives($year, $month = false, $status = 1, $length = false
  * @param bool|array $archives
  * @return mixed
  */
+//A RETRAVAILLER
 function getSpecificArticlesCategory($categoryId, $parentId = false, $favorite = 1, $archives = false)
 {
     //get all articles categories

@@ -86,16 +86,17 @@
                             <?= getTokenField(); ?>
                             <div class="row">
                                 <div class="col-12 col-lg-6">
-                                    <?= App\Form::text('Date début - au format Mois/Jour/Année, par exemple 01/15/2024 pour le 15 Janvier 24', 'dateDebut', 'text', '', true, 10, '', '', 'datepicker'); ?>
+                                    <?= App\Form::text('Date début - au format Jour/Mois/Année', 'dateDebut', 'text', '', true, 10, '', '', 'datepicker'); ?>
                                 </div>
                                 <div class="col-12 col-lg-3">
                                     <?= App\Form::selectTime('Heure début', 'heureDebut', true, 0, 24, 55, 5); ?>
                                 </div>
                                 <div class="col-12 col-lg-3">
                                     <?= App\Form::select('Localisation', 'localisation', [
-                                        1 => '1a', '2', '10a', '10b', '10c']); ?>
+                                        1 => 'Tour Eiffel', 'Marseille', 'Strasbourg']); ?>
                                 </div>
                             </div>
+							<small id="addDateSuccessMsg" class="text-success"></small>
                             <small id="addDateErrorMsg" class="text-danger"></small>
                         </form>
                     </div>
@@ -111,11 +112,13 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
-                var $error = $('form#NewEventDateForm #addDateErrorMsg');
+                let $error = $('form#NewEventDateForm #addDateErrorMsg');
+				let $success = $('form#NewEventDateForm #addDateSuccessMsg');
 
                 function getEventData() {
                     $('#eventsDates').html('<i class="fas fa-circle-notch fa-spin"></i> <?= trans('Chargement'); ?>...<span class="sr-only"><?= trans('Chargement'); ?>...</span>');
                     $error.html('');
+					$success.html('');
                     setTimeout(function () {
                         $('#eventsDates').load('<?= EVENTMANAGEMENT_URL . 'script/eventsDates.php'; ?>', {id: <?= $Event->getId() ?>});
                     }, 1000);
@@ -137,14 +140,17 @@
                             function (data) {
                                 if (data === true || data === 'true') {
                                     $error.html('');
+									$success.html('Nouvelle date ajoutée avec succès');
                                     $('#eventsDates').load('<?= EVENTMANAGEMENT_URL . 'script/eventsDates.php'; ?>', {id: <?= $Event->getId() ?>});
-                                    $('#submitFormAddNewDateEvent').html('<?= trans('Enregistré'); ?>').delay(2000).html('<?= trans('Ajouter'); ?>');
+                                    $('#submitFormAddNewDateEvent').html('<?= trans('Ajouter une autre date'); ?>');
                                 } else {
+									$success.html('');
                                     $error.html(data);
                                 }
                             }
                         );
                     } else {
+						$success.html('');
                         $error.html('<?= trans('Tous les champs sont obligatoires'); ?>');
                     }
                 });

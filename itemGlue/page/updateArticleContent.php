@@ -24,7 +24,7 @@ if (!empty($_GET['id'])):
 
         $Category = new Category();
         $Category->setType('ITEMGLUE');
-        $listCatgories = extractFromObjToArrForList($Category->showByType(), 'id');
+        $listCategories = extractFromObjToArrForList($Category->showByType(), 'id');
 
         $CategoryRelation = new CategoryRelations('ITEMGLUE', $Article->getId());
         $allCategoryRelations = extractFromObjToSimpleArr($CategoryRelation->getData(), 'categoryId', 'name');
@@ -125,7 +125,7 @@ if (!empty($_GET['id'])):
                                 </div>
                                 <div class="my-4"></div>
                                 <div class="col-12">
-                                    <?= Form::checkbox('Catégories', 'categories', $listCatgories, $allCategoryRelations, 'checkCategories'); ?>
+                                    <?= Form::checkbox('Catégories', 'categories', $listCategories, $allCategoryRelations, 'checkCategories'); ?>
                                 </div>
                                 <div class="col-12">
                                     <?= Form::target('SAVEARTICLECONTENT'); ?>

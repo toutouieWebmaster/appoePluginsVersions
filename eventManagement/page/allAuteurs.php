@@ -1,8 +1,9 @@
-<?php require('header.php');
+<?php use App\Plugin\EventManagement\Auteur;
+require('header.php');
 echo getTitle( getAppPageName(), getAppPageSlug() ); ?>
     <div class="container-fluid">
         <?php
-        $Auteur = new \App\Plugin\EventManagement\Auteur();
+        $Auteur = new Auteur();
         $auteurs = $Auteur->showByType();
         ?>
         <div class="row">

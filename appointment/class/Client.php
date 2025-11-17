@@ -174,7 +174,7 @@ class Client
                 `status` BOOLEAN NOT NULL DEFAULT FALSE,
                 `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 				) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;';
-        return DB::exec($sql);
+        return (bool)DB::exec($sql);
     }
 
     public function show(): bool

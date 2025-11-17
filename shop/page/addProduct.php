@@ -37,7 +37,7 @@ showPostResponse(getDataPostResponse());
                             <?= App\Form::text('Épaisseur (en mm)', 'dimension', 'number', !empty($_POST['dimension']) ? $_POST['dimension'] : '', false, 9, '', '', '', 'Ex: 1000 pour 1 m', false); ?>
                         </div>
                         <div class="col-12 mt-3">
-                            <?= App\Form::checkbox('Catégories', 'categories', $listCategories, '', 'checkCategories'); ?>
+                            <?= App\Form::checkbox('Catégories', 'categories', $listCategories, [], 'checkCategories'); ?>
                         </div>
                     </div>
                 </div>

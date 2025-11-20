@@ -29,11 +29,11 @@ showPostResponse(getDataPostResponse());
                             <?= App\Form::text('Prix (€)', 'price', 'number', !empty($_POST['price']) ? $_POST['price'] : '', true, 9, 'step="0.01"', '', '', 'Ex: 16.97', false); ?>
                         </div>
 
-                        <div class="col-12 col-lg-4 mt-2">
+                        <div class="col-12 col-lg-4 mt-2 forProduitMateriel">
                             <?= App\Form::text('Poids (en grammes)', 'poids', 'number', !empty($_POST['poids']) ? $_POST['poids'] : '', false, 9, '', '', '', 'Ex: 1500 pour 1.5 kg', false); ?>
                         </div>
 
-                        <div class="col-12 col-lg-4 mt-2">
+                        <div class="col-12 col-lg-4 mt-2 forProduitMateriel">
                             <?= App\Form::text('Épaisseur (en mm)', 'dimension', 'number', !empty($_POST['dimension']) ? $_POST['dimension'] : '', false, 9, '', '', '', 'Ex: 1000 pour 1 m', false); ?>
                         </div>
                         <div class="col-12 mt-3">
@@ -58,8 +58,17 @@ showPostResponse(getDataPostResponse());
     </div>
     <script>
         $(document).ready(function () {
+
             $('input#name').keyup(function () {
                 $('input#slug').val(convertToSlug($(this).val()));
+            });
+
+            $('#type').on('change', function() {
+                if ($(this).val() === '2') {
+                    $('.forProduitMateriel').hide();
+                } else {
+                    $('.forProduitMateriel').show();
+                }
             });
         });
     </script>

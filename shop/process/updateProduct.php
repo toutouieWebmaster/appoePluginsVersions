@@ -18,7 +18,8 @@ if (checkPostAndTokenRequest()) {
 
         //update Produit
         $Product->feed($_POST);
-
+        $Product->setPoids($_POST['poids'] ?: null);
+        $Product->setDimension($_POST['dimension'] ?: null);
         if (!$Product->exist(true)) {
             if ($Product->update()) {
 

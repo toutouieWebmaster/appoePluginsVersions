@@ -8,8 +8,8 @@ if (getUserIdSession()) {
     if (isset($_GET['csv'])) {
 
         $filename = !empty($_GET['filename']) ? $_GET['filename'] : 'document';
-        $headers = array('Civilité', 'Nom', 'Prénom', 'Intitulé', 'Âge', 'e-mail', 'Téléphone', 'Adresse', 'Code postal', 'Ville', 'Pays', 'Options');
-        $data = getPeopleData('', ['nature', 'name', 'firstName', 'entitled', 'birthDate', 'email', 'tel', 'address', 'zip', 'city', 'country', 'options']);
+        $headers = array('Type', 'Civilité', 'Nom', 'Prénom', 'Intitulé', 'Âge', 'e-mail', 'Téléphone', 'Adresse', 'Code postal', 'Ville', 'Pays');
+        $data = getPeopleData('', ['type', 'nature', 'name', 'firstName', 'entitled', 'birthDate', 'email', 'tel', 'address', 'zip', 'city', 'country']);
         if(is_array($data)) {
             exportCsv($headers, $data, $filename, ';');
         }

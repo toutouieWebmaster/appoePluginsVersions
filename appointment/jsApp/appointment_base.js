@@ -305,7 +305,7 @@ jQuery(window).on('load', function () {
                     position: position
                 }).done(function (data) {
                     if (data === 'true') {
-                        appointment_ajax({getManageList: 'preferences', idAgenda: idAgenda}).done(function (data) {
+                        appointment_ajax({getManageList: 'informations', idAgenda: idAgenda}).done(function (data) {
                             if (data) {
                                 $('#addInfoModal').modal('hide');
                                 setTimeout(function () {

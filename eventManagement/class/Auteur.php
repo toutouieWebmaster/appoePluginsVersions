@@ -21,7 +21,7 @@ class Auteur extends \App\Plugin\People\People
      *
      * @return bool
      */
-    public function notExist($forUpdate = false)
+    public function notExist(bool $forUpdate = false): bool
     {
 
         $sql = 'SELECT id FROM appoe_plugin_people WHERE type = :type AND name = :name';

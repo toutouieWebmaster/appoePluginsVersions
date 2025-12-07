@@ -8,6 +8,7 @@ echo getTitle( getAppPageName(), getAppPageSlug() ); ?>
         ?>
         <div class="row">
             <div class="col-12">
+<p><i><span id="alertDeleteAuthor"></span></i></p>
                 <div class="table-responsive">
                     <table id="clientTable"
                            class="sortableTable table table-striped">
@@ -58,6 +59,7 @@ echo getTitle( getAppPageName(), getAppPageSlug() ); ?>
                         function (data) {
                             if (data === true || data === 'true') {
                                 $btn.parent('td').parent('tr').slideUp();
+                                $('#alertDeleteAuthor').html('Succès ! Pour désarchiver l\'auteur, rendez-vous dans le tableau des archives du plugin Personnes.');
                             }
                         }
                     );

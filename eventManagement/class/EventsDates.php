@@ -89,7 +89,7 @@ class EventsDates {
 	/**
 	 * @return bool
 	 */
-	public function createTable() {
+	public function createTable(): bool {
 		$sql = 'CREATE TABLE IF NOT EXISTS `appoe_plugin_eventManagement_dates` (
   				`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 PRIMARY KEY (`id`),
@@ -114,7 +114,7 @@ class EventsDates {
 	/**
 	 * @return bool
 	 */
-	public function show() {
+	public function show(): bool {
 
 		$sql = 'SELECT * FROM appoe_plugin_eventManagement_dates WHERE id = :id';
 
@@ -124,18 +124,12 @@ class EventsDates {
 
 		$count = $stmt->rowCount();
 		$error = $stmt->errorInfo();
-		if ( $error[0] != '00000' ) {
-			return false;
-		} else {
-			if ( $count == 1 ) {
-				$row = $stmt->fetch(\PDO::FETCH_OBJ );
-				$this->feed( $row );
-
-				return true;
-			} else {
-				return false;
-			}
-		}
+        if ($error[0] == '00000' && $count == 1 ) {
+            $row = $stmt->fetch(\PDO::FETCH_OBJ );
+            $this->feed( $row );
+            return true;
+        }
+        return false;
 	}
 
 	/**
@@ -175,7 +169,7 @@ class EventsDates {
 		}
 	}
 
-	public function notExist() {
+	public function notExist(): bool {
 
 		$sql  = 'SELECT * FROM appoe_plugin_eventManagement_dates WHERE eventId = :eventId AND ((dateDebut BETWEEN :dateDebut AND :dateFin) OR (dateFin BETWEEN :dateDebut AND :dateFin))';
 		$stmt = $this->dbh->prepare( $sql );
@@ -197,7 +191,7 @@ class EventsDates {
 	/**
 	 * @return bool
 	 */
-	public function save() {
+	public function save(): bool {
 
 		$sql = 'INSERT INTO appoe_plugin_eventManagement_dates (eventId, dateDebut, dateFin, localisation, created_at) 
                 VALUES (:eventId, :dateDebut, :dateFin, :localisation, CURDATE())';
@@ -224,7 +218,7 @@ class EventsDates {
 	/**
 	 * @return bool
 	 */
-	public function update() {
+	public function update(): bool {
 
 		$sql = 'UPDATE appoe_plugin_eventManagement_dates SET eventId = :eventId, dateDebut = :dateDebut, dateFin = :dateFin, localisation = :localisation WHERE id = :id';
 
@@ -248,7 +242,7 @@ class EventsDates {
 	/**
 	 * @return bool
 	 */
-	public function delete() {
+	public function delete(): bool {
 
 		$sql = 'DELETE FROM appoe_plugin_eventManagement_dates WHERE id = :id';
 
@@ -269,7 +263,7 @@ class EventsDates {
 	 *
 	 * @param $data
 	 */
-	public function feed( $data ) {
+	public function feed( $data ): void {
 		foreach ( $data as $attribut => $value ) {
 			$method = 'set' . str_replace( ' ', '', ucwords( str_replace( '_', ' ', $attribut ) ) );
 

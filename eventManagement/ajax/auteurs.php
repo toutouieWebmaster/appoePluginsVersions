@@ -8,8 +8,9 @@ if ( checkAjaxRequest() ) {
 			$Auteur = new \App\Plugin\EventManagement\Auteur();
 			$Auteur->setId( $_POST['idDeleteAuteur'] );
 			if ( $Auteur->show() ) {
-				if ( $Auteur->delete() ) {
-					echo json_encode( true );
+                $Auteur->setStatus(0);
+				if ($Auteur->update()) {
+										echo json_encode( true );
 				}
 			}
 		}

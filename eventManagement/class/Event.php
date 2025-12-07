@@ -1,11 +1,12 @@
 <?php
 namespace App\Plugin\EventManagement;
+
 class Event {
 	private $id;
-	private $auteurId;
-	private $titre;
-	private $description;
-	private $pitch = null;
+	private int|string $auteurId;
+	private string $titre;
+	private string $description;
+	private ?string $pitch = null;
 	private $participation = null;
 	private $duree = null;
 	private $spectacleType = 1;
@@ -185,7 +186,7 @@ class Event {
 	/**
 	 * @return bool
 	 */
-	public function createTable() {
+	public function createTable(): bool {
 		$sql = 'CREATE TABLE IF NOT EXISTS `appoe_plugin_eventManagement` (
   				`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
                 PRIMARY KEY (`id`),
@@ -217,7 +218,7 @@ class Event {
 	/**
 	 * @return bool
 	 */
-	public function show() {
+	public function show(): bool {
 
 		$sql = 'SELECT * FROM appoe_plugin_eventManagement WHERE id = :id';
 
@@ -227,18 +228,13 @@ class Event {
 
 		$count = $stmt->rowCount();
 		$error = $stmt->errorInfo();
-		if ( $error[0] != '00000' ) {
-			return false;
-		} else {
-			if ( $count == 1 ) {
-				$row = $stmt->fetch( \PDO::FETCH_OBJ );
-				$this->feed( $row );
+        if ($error[0] == '00000' && $count == 1 ) {
+            $row = $stmt->fetch( \PDO::FETCH_OBJ );
+            $this->feed( $row );
+            return true;
+        }
+        return false;
 
-				return true;
-			} else {
-				return false;
-			}
-		}
 	}
 
 	/**
@@ -266,7 +262,7 @@ class Event {
 	/**
 	 * @return bool
 	 */
-	public function save() {
+	public function save(): bool {
 
 		$sql = 'INSERT INTO appoe_plugin_eventManagement (auteurId, titre, description, pitch, participation, duree, spectacleType, indoor, image, created_at) VALUES (:auteurId, :titre, :description, :pitch, :participation, :duree, :spectacleType, :indoor, :image, CURDATE())';
 
@@ -296,7 +292,7 @@ class Event {
 	/**
 	 * @return bool
 	 */
-	public function update() {
+	public function update(): bool {
 
 		$sql = 'UPDATE appoe_plugin_eventManagement SET auteurId = :auteurId, titre = :titre, description = :description, pitch = :pitch, participation = :participation, spectacleType = :spectacleType, indoor = :indoor, image = :image, statut = :statut WHERE id = :id';
 
@@ -321,7 +317,7 @@ class Event {
 		}
 	}
 
-	public function notExist() {
+	public function notExist(): bool {
 
 		$sql  = 'SELECT * FROM appoe_plugin_eventManagement WHERE titre = :titre AND statut  = TRUE';
 		$stmt = $this->dbh->prepare( $sql );
@@ -340,7 +336,7 @@ class Event {
 	/**
 	 * @return bool
 	 */
-	public function delete() {
+	public function delete(): bool {
 		$this->statut = 0;
 
 		if ( $this->update() ) {
@@ -351,11 +347,11 @@ class Event {
 	}
 
 	/**
-	 * @param $file
+	 * @param array$file
 	 *
-	 * @return string
+	 * @return bool
 	 */
-	public function uploadFile( $file ) {
+	public function uploadFile(array $file ): bool {
 
 		$upload_dir = FILE_DIR_PATH;
 		if ( ! empty( $file['name'] ) ) {
@@ -378,18 +374,16 @@ class Event {
 					}
 				}
 			}
-
 		}
-
 		return false;
 	}
 
 	/**
-	 * @param $filename
+	 * @param string $filename
 	 *
 	 * @return string
 	 */
-	public function cleanText( $filename ) {
+	public function cleanText(string $filename ): string {
 
 		$special = array(
 			' ',
@@ -518,7 +512,7 @@ class Event {
 	 *
 	 * @param $data
 	 */
-	public function feed( $data ) {
+	public function feed( $data ): void {
 		foreach ( $data as $attribut => $value ) {
 			$method = 'set' . str_replace( ' ', '', ucwords( str_replace( '_', ' ', $attribut ) ) );
 

@@ -14,12 +14,12 @@ if (checkPostAndTokenRequest()) {
         //Update auteur
         $Auteur->feed($_POST);
 
-        if ($Auteur->notExist()) {
+        if ($Auteur->notExist(true)) {
             if ($Auteur->update()) {
 
                 //Delete post data
                 unset($_POST);
-                setPostResponse('L\'auteur a été mis à jour', 'success');
+                setPostResponse('L\'auteur a été mis à jour. Retour à la <a href="https://hodeshtov.com/app/plugin/eventManagement/page/allAuteurs/">liste des auteurs</a>', 'success');
 
             } else {
 
@@ -27,7 +27,7 @@ if (checkPostAndTokenRequest()) {
             }
         } else {
 
-            setPostResponse('Le nom de l\'auteur est déjà utilisé');
+            setPostResponse('Auteur inconnu');
         }
 
     } else {

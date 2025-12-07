@@ -30,26 +30,8 @@ if (!empty($_GET['id'])): ?>
                     </div>
                 </div>
                 <div class="my-4"></div>
-                <div class="row">
-                    <div class="col-12">
-                        <button type="button" class="btn btn-outline-warning"
-                                id="displayForm"><?= trans('Modifier'); ?></button>
-                    </div>
-                </div>
-                <div class="my-4"></div>
             </form>
         </div>
-        <script>
-            $(document).ready(function () {
-                $('input, textarea, select, button[type="submit"], .custom-control-indicator').addClass('displayNoForm').attr('disabled', 'disabled');
-                $('input[name="nature"]:not(:checked)').parent('label').css('display', 'none');
-                $('#displayForm').click(function () {
-                    $(this).remove();
-                    $('input, textarea, select, button[type="submit"], .custom-control-indicator').removeClass('displayNoForm').attr('disabled', false);
-                    $('input[name="nature"]:not(:checked)').parent('label').css('display', 'inline');
-                });
-            });
-        </script>
         <?php require('footer.php'); ?>
     <?php else: ?>
         <?= getContainerErrorMsg(trans('Cet auteur n\'existe pas')); ?>

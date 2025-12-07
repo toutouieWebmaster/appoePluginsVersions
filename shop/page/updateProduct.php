@@ -51,13 +51,14 @@ if (!empty($_GET['id'])):
                             <?= Form::text('Prix (€)', 'price', 'text', $Product->getPrice(), true, 9, '', '', '', 'Ex: 16.97', false); ?>
                         </div>
 
-                        <div class="col-12 col-lg-4 mt-2">
+<!--                        On n'affiche pas le poids/l'épaisseur pour un produit téléchargeable-->
+                        <div class="col-12 col-lg-4 mt-2 forProduitMateriel" <?= $Product->getType() == 2 ? 'style="display: none"' : '' ?>>
                             <?= Form::text('Poids (en grammes)', 'poids', 'text', $Product->getPoids(), false, 9, '', '', '', 'Ex: 1500 pour 1.5 kg', false); ?>
                         </div>
-
-                        <div class="col-12 col-lg-4 mt-3">
-                            <?= Form::text('Épaisseur (en Millimètre)', 'dimension', 'text', $Product->getDimension(), false, 9, '', '', '', 'Ex: 1000 pour 1 m', false); ?>
+                        <div class="col-12 col-lg-4 mt-3 forProduitMateriel" <?= $Product->getType() == 2 ? 'style="display: none"' : '' ?>>
+                            <?= Form::text('Épaisseur (en mm)', 'dimension', 'text', $Product->getDimension(), false, 9, '', '', '', 'Ex: 1000 pour 1 m', false); ?>
                         </div>
+
                         <div class="col-12 mt-2">
                             <?= Form::checkbox('Catégories', 'categories', $listCategories, $allCategoryRelations, 'checkCategories'); ?>
                         </div>
@@ -87,6 +88,14 @@ if (!empty($_GET['id'])):
             $('input#name').keyup(function () {
                 if ($('#updateSlugAuto').is(':checked')) {
                     $('input#slug').val(convertToSlug($(this).val()));
+                }
+            });
+
+            $('#type').on('change', function() {
+                if ($(this).val() === '2') {
+                    $('.forProduitMateriel').hide();
+                } else {
+                    $('.forProduitMateriel').show();
                 }
             });
         });

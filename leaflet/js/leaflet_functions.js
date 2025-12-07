@@ -41,10 +41,10 @@ $.fn.mappoe = function () {
                 if (map) {
 
                     //Get marker
-                    var rootImg = WEB_PLUGIN_URL + 'leaflet/icons/';
-                    var Icon = L.icon({
-                        iconUrl: mapOptions.markerName ? mapOptions.markerName : rootImg + 'black.png',
-
+                    let rootImg = WEB_PLUGIN_URL + 'leaflet/icons/';
+					let publicImg = WEB_DIR_URL + 'public/images/';
+                    let Icon = L.icon({
+                        iconUrl: mapOptions.markerName ? publicImg + mapOptions.markerName : rootImg + 'black.png',
                         iconSize: [mapOptions.markerSize, 'auto'],
                         iconAnchor: [(mapOptions.markerSize / 2), mapOptions.markerSize],
                         popupAnchor: [0, -mapOptions.markerSize]

@@ -142,7 +142,7 @@ if (checkAjaxRequest()) {
 
                     //get commande
                     $data['commande'] = array(
-                        'date' => displayCompleteDate($Commande->getCreatedAt()),
+                        'date' => displayCompleteDate($Commande->getCreatedAt(), true),
                         'etat' => $Commande->getOrderState()
                     );
 

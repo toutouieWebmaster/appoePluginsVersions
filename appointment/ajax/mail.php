@@ -14,8 +14,8 @@ if (!empty($_POST['formType']) && valideAjaxToken()) {
     $_POST = cleanRequest($_POST);
 
     /************************ APPOINTMENT **********************/
-    if ($_POST['formType'] == 'appointment' && !empty($_POST['idAgenda']) && !empty($_POST['idRdvType']) && !empty($_POST['rdvDate'])
-        && !empty($_POST['rdvBegin']) && !empty($_POST['rdvEnd']) && !empty($_POST['appointment_lastName']) && !empty($_POST['appointment_firstName'])
+    if ($_POST['formType'] === 'appointment' && !empty($_POST['idAgenda']) && !empty($_POST['idRdvType']) && !empty($_POST['rdvDate'])
+        && isset($_POST['rdvBegin']) && isset($_POST['rdvEnd']) && !empty($_POST['appointment_lastName']) && !empty($_POST['appointment_firstName'])
         && !empty($_POST['appointment_email']) && isEmail($_POST['appointment_email']) && !empty($_POST['appointment_tel'])
         && isTel($_POST['appointment_tel']) && is_numeric($_POST['idAgenda']) && is_numeric($_POST['idRdvType'])
         && is_numeric($_POST['rdvBegin']) && is_numeric($_POST['rdvEnd'])) {

@@ -11,15 +11,15 @@ class People
     protected $type;
     protected $nature = null;
     protected $name;
-    protected $firstName = null;
+    protected ?string $firstName = null;
     protected $entitled = null;
     protected $birthDate = null;
-    protected $email = null;
-    protected $tel = null;
-    protected $address = null;
-    protected $zip = null;
-    protected $city = null;
-    protected $country = null;
+    protected ?string $email = null;
+    protected ?string $tel = null;
+    protected ?string $address = null;
+    protected ?string $zip = null;
+    protected ?string $city = null;
+    protected ?string $country = null;
     protected $idUser = null;
     protected $options = null;
     protected $status = 1;
@@ -394,21 +394,14 @@ class People
 
         $count = $stmt->rowCount();
         $error = $stmt->errorInfo();
-        if ($error[0] != '00000') {
-            return false;
-        } else {
-            if ($count == 1) {
+        if ($error[0] == '00000' && $count == 1) {
 
-                $row = $stmt->fetch(PDO::FETCH_OBJ);
-                $this->feed($row);
+            $row = $stmt->fetch(PDO::FETCH_OBJ);
+            $this->feed($row);
 
-                return true;
-
-            } else {
-
-                return false;
-            }
+            return true;
         }
+        return false;
     }
 
     /**
@@ -606,7 +599,7 @@ class People
      *
      * @return bool
      */
-    public function notExist($forUpdate = false)
+    public function notExist(bool $forUpdate = false): bool
     {
 
         $sql = 'SELECT id FROM '.TABLEPREFIX.'appoe_plugin_people WHERE type = :type AND name = :name 

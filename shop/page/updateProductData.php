@@ -137,10 +137,10 @@ if (!empty($_GET['id'])):
                                     <form method="post" data-imageid="<?= $file->id; ?>">
                                         <input type="hidden" class="typeId" name="typeId"
                                                value="<?= $file->typeId; ?>">
-                                        <?= Form::text('Titre', 'title', 'text', $file->title, false, 255, '', '', 'form-control-sm imageTitle upImgForm', 'Titre'); ?>
-                                        <?= Form::textarea('Description', 'description', $file->description, 1, false, '', 'form-control-sm imageDescription upImgForm', 'Description'); ?>
-                                        <?= Form::text('Lien', 'link', 'url', $file->link, false, 255, '', '', 'form-control-sm imagelink upImgForm', 'Lien'); ?>
-                                        <?= Form::text('Position', 'position', 'text', $file->position, false, 5, '', '', 'form-control-sm imagePosition upImgForm', 'Position'); ?>
+                                        <?= Form::text('Titre', 'title', 'text', $file->title ?? '', false, 255, '', '', 'form-control-sm imageTitle upImgForm', 'Titre'); ?>
+                                        <?= Form::textarea('Description', 'description', $file->description ?? '', 1, false, '', 'form-control-sm imageDescription upImgForm', 'Description'); ?>
+                                        <?= Form::text('Lien', 'link', 'url', $file->link ?? '', false, 255, '', '', 'form-control-sm imagelink upImgForm', 'Lien'); ?>
+                                        <?= Form::text('Position', 'position', 'text', $file->position ?? '', false, 5, '', '', 'form-control-sm imagePosition upImgForm', 'Position'); ?>
                                         <select class="custom-select custom-select-sm templatePosition form-control-sm upImgForm"
                                                 name="templatePosition">
                                             <?php if (!getSerializedOptions($file->options, 'templatePosition')): ?>
@@ -327,7 +327,7 @@ if (!empty($_GET['id'])):
                                 idImage: idImage
                             },
                             function (data) {
-                                if (data && (data == 'true' || data === true)) {
+                                if (data && (data === 'true' || data === true)) {
                                     $btn.parent('div').fadeOut('fast');
                                     availableApp();
                                 }

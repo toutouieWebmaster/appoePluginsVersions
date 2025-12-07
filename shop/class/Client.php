@@ -22,7 +22,7 @@ class Client extends \App\Plugin\People\People
      *
      * @return bool
      */
-    public function notExist($forUpdate = false)
+    public function notExist(bool $forUpdate = false): bool
     {
 
         $sql = 'SELECT id FROM '.TABLEPREFIX.'appoe_plugin_people WHERE type = :type AND email = :email';

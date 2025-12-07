@@ -21,7 +21,7 @@ const PEOPLE_NATURE = array(
  * @return string
  * @throws \Random\RandomException
  */
-function people_addPersonFormFields(array $excludesFields = [], array $dataFields = [], array $requiredFields = [], $formName = 'ADDPERSON', $showType = true, $showSaveBtn = true)
+function people_addPersonFormFields(array $excludesFields = [], array $dataFields = [], array $requiredFields = [], string $formName = 'ADDPERSON', bool $showType = true, bool $showSaveBtn = true): string
 {
     //defaults fields
     $natureF = $nameF = $firstNameF = $birthDateF = $emailF = $telF = $addressF = $zipF = $cityF = $countryF = true;
@@ -81,14 +81,14 @@ function people_addPersonFormFields(array $excludesFields = [], array $dataField
 /**
  * @return array
  */
-function getPeopleNatureName()
+function getPeopleNatureName(): array
 {
     return PEOPLE_NATURE;
 }
 
 /**
  * @param $natureId
- * @return bool|mixed
+ * @return mixed
  */
 function getPeopleNatureNameById($natureId)
 {
@@ -99,11 +99,11 @@ function getPeopleNatureNameById($natureId)
 }
 
 /**
- * @param $type
+ * @param string $type
  * @param array $data
  * @return array|int
  */
-function getPeopleData($type = '', array $data = array('name'))
+function getPeopleData(string $type = '', array $data = ['name'])
 {
 
     $People = new People();

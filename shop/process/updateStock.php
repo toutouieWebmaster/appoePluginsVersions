@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //Update Stock
         $Stock = new Stock();
+        $Stock->setId($_POST['stock_id']);
         $Stock->setProductId($_POST['product_id']);
         $Stock->setLimitQuantity($limitQuantity);
         $Stock->setDateLimit($limitDate);
